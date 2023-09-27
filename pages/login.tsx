@@ -1,8 +1,19 @@
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect } from "react";
 
 const Login = () => {
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  console.log({ session });
+  useEffect(() => {
+    if (session) {
+      router.push("/");
+    }
+  }, [session]);
+
   return (
     <div
       className="flex justify-center 
