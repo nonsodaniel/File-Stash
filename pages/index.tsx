@@ -4,5 +4,5 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 
 export default function Home() {
-  return <div className={styles.container}>Hello app</div>;
+  return <div className={styles.container}>Home Page</div>;
 }
