@@ -2,7 +2,17 @@ import Image from "next/image";
 import React, { useState } from "react";
 const CreateFolderModal = () => {
   const [folderName, setFolderName] = useState();
-
+  console.log(folderName);
+  //   const onCreate=async()=>{
+  //     console.log(folderName)
+  //     await setDoc(doc(db,"Folders",docId),{
+  //         name:folderName,
+  //         id:docId,
+  //         createBy:session.user.email,
+  //         parentFolderId:parentFolderId
+  //     })
+  //     setShowToastMsg('Folder Created!')
+  // }
   return (
     <div>
       <form method="dialog" className="modal-box p-9 items-center">
