@@ -24,7 +24,7 @@ export const menuList = [
 export const folderList = [
   {
     id: 1,
-    name: "Folder 1 to Test Big Text",
+    name: "Folder 1",
   },
   {
     id: 2,
@@ -41,5 +41,36 @@ export const folderList = [
   {
     id: 5,
     name: "Folder 4",
+  },
+];
+
+export const fileListData = [
+  {
+    id: 1,
+    name: "Invoice.docx",
+    type: "docx",
+    size: "5383000",
+    modifiedAt: new Date(),
+  },
+  {
+    id: 2,
+    name: "Advanced Physics.pdf",
+    type: "pdf",
+    size: "3948492",
+    modifiedAt: "August 10,2021",
+  },
+  {
+    id: 3,
+    name: "nature.png",
+    type: "image",
+    size: "2030201",
+    modifiedAt: new Date(),
+  },
+  {
+    id: 4,
+    name: "Cover Letter.docx",
+    type: "docx",
+    size: "7382882",
+    modifiedAt: new Date(),
   },
 ];
