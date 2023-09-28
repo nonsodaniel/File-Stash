@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { menuList } from "../utils/constant";
+import { menuList } from "../utils/db";
 
 const SideNavBar = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
