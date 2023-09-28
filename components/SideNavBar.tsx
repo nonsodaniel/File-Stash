@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { menuList } from "../utils/db";
+import CreateFolderModal from "./CreateFolderModal";
 
 const SideNavBar = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
@@ -46,6 +47,7 @@ const SideNavBar = () => {
         className="flex gap-2 items-center text-[13px]
         bg-sky-400 w-full p-2 justify-center text-white rounded-md px-3
         hover:scale-105 transition-all mt-1"
+        onClick={() => window.my_modal_3.showModal()}
       >
         Create Folder
         <svg
@@ -91,6 +93,10 @@ const SideNavBar = () => {
           </h2>
         ))}
       </div>
+
+      <dialog id="my_modal_3" className="modal">
+        <CreateFolderModal />
+      </dialog>
     </div>
   );
 };
