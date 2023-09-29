@@ -47,6 +47,7 @@ const SideNavBar = () => {
         className="flex gap-2 items-center text-[13px]
         bg-sky-400 w-full p-2 justify-center text-white rounded-md px-3
         hover:scale-105 transition-all mt-1"
+        //@ts-ignore
         onClick={() => window.my_modal_3.showModal()}
       >
         Create Folder

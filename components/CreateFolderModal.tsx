@@ -1,18 +1,22 @@
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { useState } from "react";
+import { app } from "../config/firebaseConfig";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
+
 const CreateFolderModal = () => {
   const [folderName, setFolderName] = useState();
-  console.log(folderName);
-  //   const onCreate=async()=>{
-  //     console.log(folderName)
-  //     await setDoc(doc(db,"Folders",docId),{
-  //         name:folderName,
-  //         id:docId,
-  //         createBy:session.user.email,
-  //         parentFolderId:parentFolderId
-  //     })
-  //     setShowToastMsg('Folder Created!')
-  // }
+  const { data: session } = useSession();
+  const db = getFirestore(app);
+  const docId = new Date().toISOString();
+
+  const createFolderHandler = async () => {
+    await setDoc(doc(db, "Folders", docId), {
+      name: folderName,
+      id: docId,
+      createBy: session.user.email,
+    });
+  };
   return (
     <div>
       <form method="dialog" className="modal-box p-9 items-center">
@@ -34,7 +38,7 @@ const CreateFolderModal = () => {
           <button
             className="bg-blue-500
           text-white rounded-md p-2 px-3 w-full"
-            onClick={() => null}
+            onClick={() => createFolderHandler()}
           >
             Create
           </button>
