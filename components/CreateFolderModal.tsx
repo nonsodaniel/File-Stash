@@ -1,11 +1,14 @@
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { app } from "../config/firebaseConfig";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { ShowToastContext } from "../context/ShowToastContext";
 
 const CreateFolderModal = () => {
   const [folderName, setFolderName] = useState();
+  const { showToastMessage, setShowToastMessage } =
+    useContext(ShowToastContext);
   const { data: session } = useSession();
   const db = getFirestore(app);
   const docId = new Date().toISOString();
@@ -16,7 +19,9 @@ const CreateFolderModal = () => {
       id: docId,
       createBy: session.user.email,
     });
+    setShowToastMessage("Folder successfully created");
   };
+
   return (
     <div>
       <form method="dialog" className="modal-box p-9 items-center">
