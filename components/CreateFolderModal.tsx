@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { app } from "../config/firebaseConfig";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 import { ShowToastContext } from "../context/ShowToastContext";
+import { RootFolderContext } from "../context/RootFolderContext";
 
 const CreateFolderModal = () => {
   const [folderName, setFolderName] = useState();
@@ -11,13 +12,15 @@ const CreateFolderModal = () => {
     useContext(ShowToastContext);
   const { data: session } = useSession();
   const db = getFirestore(app);
-  const docId = new Date().toISOString();
+  const docId = Date.now().toString();
+  const { rootFolderId, setRootFolderId } = useContext(RootFolderContext);
 
   const createFolderHandler = async () => {
     await setDoc(doc(db, "Folders", docId), {
       name: folderName,
       id: docId,
       createBy: session.user.email,
+      rootFolderId,
     });
     setShowToastMessage("Folder successfully created");
   };

@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
 import styles from "../styles/Home.module.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import SearchBar from "../components/SearchBar";
 import FolderList from "../components/Folder/FolderList";
@@ -14,11 +14,13 @@ import {
   where,
 } from "firebase/firestore";
 import { app } from "../config/firebaseConfig";
+import { RootFolderContext } from "../context/RootFolderContext";
 
 export default function Home() {
   const { data: session } = useSession();
   const router = useRouter();
   const [folderList, setFolderList] = useState([]);
+  const { rootFolderId, setRootFolderId } = useContext(RootFolderContext);
 
   const db = getFirestore(app);
 
@@ -41,6 +43,7 @@ export default function Home() {
       console.log({ session });
       getFolderList();
     }
+    setRootFolderId(0);
   }, [session]);
   console.log(folderList);
   return (

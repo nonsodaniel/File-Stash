@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import FolderItem from "./FolderItem";
 import { useRouter } from "next/router";
 import FolderItemSmall from "./FolderItemSmall";
-import { folderList } from "../../utils/db";
 
 function FolderList({ folderList, isBig = true }) {
   const [activeFolder, setActiveFolder] = useState();
