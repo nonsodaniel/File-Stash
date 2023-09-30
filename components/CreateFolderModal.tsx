@@ -25,6 +25,7 @@ const CreateFolderModal = () => {
     setShowToastMessage("Folder successfully created");
   };
 
+  console.log("create", showToastMessage);
   return (
     <div>
       <form method="dialog" className="modal-box p-9 items-center">

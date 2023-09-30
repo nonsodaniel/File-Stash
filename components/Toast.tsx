@@ -5,9 +5,10 @@ function Toast({ message }: { message: string }) {
   const { showToastMessage, setShowToastMessage } =
     useContext(ShowToastContext);
   useEffect(() => {
-    setTimeout(() => {
+    setInterval(() => {
       setShowToastMessage(null);
     }, 3000);
+    console.log("fired");
   }, [showToastMessage]);
   return (
     <div className="toast toast-top toast-end">

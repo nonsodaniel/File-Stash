@@ -4,6 +4,16 @@ import SearchBar from "../../components/SearchBar";
 import { useSession } from "next-auth/react";
 import FolderList from "../../components/Folder/FolderList";
 import { RootFolderContext } from "../../context/RootFolderContext";
+import {
+  collection,
+  getDocs,
+  getFirestore,
+  query,
+  where,
+} from "firebase/firestore";
+import { app } from "../../config/firebaseConfig";
+import FileList from "../../components/FileList/FileList";
+import { ShowToastContext } from "../../context/ShowToastContext";
 
 function FolderDetails() {
   const router = useRouter();
@@ -12,11 +22,34 @@ function FolderDetails() {
 
   const [folderList, setFolderList] = useState([]);
   const { rootFolderId, setRootFolderId } = useContext(RootFolderContext);
+  const { showToastMessage, setShowToastMessage } =
+    useContext(ShowToastContext);
+
+  const db = getFirestore(app);
+
+  const getFolderList = async () => {
+    setFolderList([]);
+    const q = query(
+      collection(db, "Folders"),
+      where("createBy", "==", session.user?.email),
+      where("rootFolderId", "==", id)
+    );
+
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+      setFolderList((folderList) => [...folderList, doc.data()]);
+    });
+  };
 
   useEffect(() => {
     setRootFolderId(id);
-  }, [id]);
-
+    if (session?.user) {
+      getFolderList();
+      console.log("recalled");
+    }
+  }, [id, session, showToastMessage]);
+  console.log({ showToastMessage });
   return (
     <div className="p-5">
       <SearchBar />
