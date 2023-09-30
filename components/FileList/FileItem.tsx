@@ -3,7 +3,6 @@ import moment from "moment/moment";
 import Image from "next/image";
 
 const FileItem = ({ file }) => {
-  console.log({ file: process.env });
   const image = "/" + file.type + ".png";
   return (
     <div
