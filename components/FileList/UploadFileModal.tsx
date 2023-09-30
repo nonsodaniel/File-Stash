@@ -1,7 +1,7 @@
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 import React, { useContext } from "react";
 import { useSession } from "next-auth/react";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { app } from "../../config/firebaseConfig";
 import { ShowToastContext } from "../../context/ShowToastContext";
 import { RootFolderContext } from "../../context/RootFolderContext";
@@ -22,9 +22,28 @@ function UploadFileModal({ closeModal }) {
         return;
       }
       const fileReference = ref(storage, "file/" + file.name);
-      uploadBytes(fileReference, file).then((snapshot) => {
-        console.log("Uploaded a blob or file!");
-      });
+      uploadBytes(fileReference, file)
+        .then((snapshot) => {
+          console.log("Uploaded a blob or file!", { snapshot });
+        })
+        .then(() => {
+          getDownloadURL(fileReference).then(async (downloadUrl) => {
+            await setDoc(doc(db, "files", docId.toString()), {
+              name: file.name,
+              type: file.name.split(".")[1],
+              size: file.size,
+              createdBy: session.user.email,
+              modifiedAt: file.lastModified,
+              rootFolderId,
+              imageUrl: downloadUrl,
+              id: docId,
+            });
+          });
+        });
+
+      console.log("got here");
+      closeModal(true);
+      setShowToastMessage("File Uploaded Successfully!");
     }
   };
   return (
