@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { menuList } from "../utils/db";
 import CreateFolderModal from "./CreateFolderModal";
+import UploadFileModal from "./FileList/UploadFileModal";
 
 const SideNavBar = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
@@ -22,10 +23,13 @@ const SideNavBar = () => {
           File Stash
         </span>
       </div>
+
       <button
         className="flex gap-2 items-center text-[13px]
         bg-blue-500 p-2 text-white rounded-md px-3
         hover:scale-105 transition-all mt-5 w-full justify-center"
+        //@ts-ignore
+        onClick={() => window.create_file_modal.showModal()}
       >
         Add New File
         <svg
@@ -97,6 +101,11 @@ const SideNavBar = () => {
 
       <dialog id="my_modal_3" className="modal">
         <CreateFolderModal />
+      </dialog>
+
+      <dialog id="create_file_modal" className="modal">
+        {/* @ts-ignore */}
+        <UploadFileModal closeModal={() => window.create_file_modal.close()} />
       </dialog>
     </div>
   );
