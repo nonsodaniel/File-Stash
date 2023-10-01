@@ -12,8 +12,8 @@ import {
   where,
 } from "firebase/firestore";
 import { app } from "../../config/firebaseConfig";
-import FileList from "../../components/FileList/FileList";
 import { ShowToastContext } from "../../context/ShowToastContext";
+import FileList from "../../components/FileList/FileList";
 
 function FolderDetails() {
   const router = useRouter();
@@ -21,6 +21,7 @@ function FolderDetails() {
   const { data: session } = useSession();
 
   const [folderList, setFolderList] = useState([]);
+  const [fileList, setFileList] = useState([]);
   const { rootFolderId, setRootFolderId } = useContext(RootFolderContext);
   const { showToastMessage, setShowToastMessage } =
     useContext(ShowToastContext);
@@ -46,10 +47,23 @@ function FolderDetails() {
     setRootFolderId(id);
     if (session?.user) {
       getFolderList();
-      console.log("recalled");
+      getFileList();
     }
   }, [id, session, showToastMessage]);
-  console.log({ showToastMessage });
+
+  const getFileList = async () => {
+    setFileList([]);
+    const q = query(
+      collection(db, "files"),
+      where("rootFolderId", "==", id),
+      where("createdBy", "==", session.user.email)
+    );
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      setFileList((fileList) => [...fileList, doc.data()]);
+    });
+  };
   return (
     <div className="p-5">
       <SearchBar />
@@ -80,6 +94,16 @@ function FolderDetails() {
         text-[16px] mt-5"
         >
           No Folder Found
+        </h2>
+      )}
+      {fileList.length > 0 ? (
+        <FileList fileList={fileList} />
+      ) : (
+        <h2
+          className="text-gray-400
+        text-[16px] mt-5"
+        >
+          No File Found
         </h2>
       )}
     </div>

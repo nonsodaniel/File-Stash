@@ -1,10 +1,8 @@
 import { useSession } from "next-auth/react";
-import styles from "../styles/Home.module.css";
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import SearchBar from "../components/SearchBar";
 import FolderList from "../components/Folder/FolderList";
-import { fileListData } from "../utils/db";
 import FileList from "../components/FileList/FileList";
 import {
   collection,
@@ -49,8 +47,6 @@ export default function Home() {
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      // console.log(doc.id, " => ", doc.data());
       setFileList((fileList) => [...fileList, doc.data()]);
     });
   };
