@@ -20,6 +20,7 @@ export default function Home() {
   const { data: session } = useSession();
   const router = useRouter();
   const [folderList, setFolderList] = useState([]);
+  const [fileList, setFileList] = useState([]);
   const { rootFolderId, setRootFolderId } = useContext(RootFolderContext);
 
   const db = getFirestore(app);
@@ -38,19 +39,36 @@ export default function Home() {
     });
   };
 
+  const getFileList = async () => {
+    setFileList([]);
+    const q = query(
+      collection(db, "files"),
+      where("rootFolderId", "==", 0),
+      where("createdBy", "==", session.user.email)
+    );
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      // console.log(doc.id, " => ", doc.data());
+      setFileList((fileList) => [...fileList, doc.data()]);
+    });
+  };
+
   useEffect(() => {
     if (session?.user) {
       console.log({ session });
       getFolderList();
+      getFileList();
     }
     setRootFolderId(0);
   }, [session]);
-  console.log(folderList);
+  console.log({ fileList });
   return (
     <div className={"p-5"}>
       <SearchBar />
       <FolderList folderList={folderList} />
-      <FileList fileList={fileListData} />
+      <FileList fileList={fileList} />
     </div>
   );
 }

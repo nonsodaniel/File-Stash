@@ -4,6 +4,7 @@ import Image from "next/image";
 
 const FileItem = ({ file }) => {
   const image = "/" + file.type + ".png";
+
   return (
     <div
       className="grid grid-cols-1
@@ -12,7 +13,12 @@ const FileItem = ({ file }) => {
         p-3 rounded-md"
     >
       <div className="flex gap-2 items-center">
-        <Image src={image} alt="file-icon" width={26} height={20} />
+        <Image
+          src={image.replace("jpeg", "jpg")}
+          alt="file-icon"
+          width={26}
+          height={20}
+        />
         <h2
           className="text-[15px] truncate"
           onClick={() => window.open(file.imageUrl)}
