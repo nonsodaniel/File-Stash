@@ -1,10 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 import FolderItem from "./FolderItem";
 import { useRouter } from "next/router";
 import FolderItemSmall from "./FolderItemSmall";
-import { ShowToastContext } from "../../context/ShowToastContext";
 
-function FolderList({ folderList, isBig = true }) {
+interface IFolderListProps {
+  folderList: any;
+  isBig?: boolean;
+}
+
+function FolderList({ folderList, isBig = true }: IFolderListProps) {
   const [activeFolder, setActiveFolder] = useState();
   const router = useRouter();
   const onFolderClick = (index, item) => {
@@ -18,33 +22,14 @@ function FolderList({ folderList, isBig = true }) {
     });
   };
   return (
-    <div
-      className="p-5 mt-5 
-    bg-white rounded-lg"
-    >
-      {isBig ? (
-        <h2
-          className="text-[17px] 
-        font-bold 
-        items-center"
-        >
-          Recent Folders
-          <span
-            className="float-right
-        text-blue-400 font-normal
-        text-[13px]"
-          >
-            View All
-          </span>
-        </h2>
-      ) : null}
+    <Fragment>
       {isBig ? (
         <div
           className="grid grid-cols-2
         md:grid-cols-3
         lg:grid-cols-4
         xl:grid-cols-5 mt-3
-        gap-4"
+        gap-4 h-60 max-h-full overflow-y-scroll"
         >
           {folderList.map((item, index) => (
             <div key={index} onClick={() => onFolderClick(index, item)}>
@@ -64,7 +49,7 @@ function FolderList({ folderList, isBig = true }) {
           ))}
         </div>
       )}
-    </div>
+    </Fragment>
   );
 }
 

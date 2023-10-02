@@ -1,7 +1,17 @@
 import React from "react";
 import FileItem from "./FileItem";
+import Loader from "../Loader";
+interface IFileListProps {
+  fileList: any;
+  isFileLoading: boolean;
+}
 
-function FileList({ fileList }) {
+function FileList({ fileList, isFileLoading }: IFileListProps) {
+  const renderFiileListItem = fileList.map((item, index) => (
+    <div key={index}>
+      <FileItem file={item} key={index} />
+    </div>
+  ));
   return (
     <div
       className="bg-white mt-5 p-5
@@ -22,15 +32,17 @@ function FileList({ fileList }) {
         <div className="grid grid-cols-3">
           <h2>Modified</h2>
           <h2>Size</h2>
-          <h2></h2>
         </div>
       </div>
-      {fileList &&
-        fileList.map((item, index) => (
-          <div key={index}>
-            <FileItem file={item} key={index} />
-          </div>
-        ))}
+
+      {isFileLoading && !fileList.length ? (
+        <Loader />
+      ) : !isFileLoading && fileList.length ? (
+        renderFiileListItem
+      ) : (
+        !isFileLoading &&
+        !fileList.length && <div className="">File Is empty</div>
+      )}
     </div>
   );
 }

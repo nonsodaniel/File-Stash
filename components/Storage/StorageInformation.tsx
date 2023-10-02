@@ -1,57 +1,15 @@
-import {
-  collection,
-  getDocs,
-  getFirestore,
-  query,
-  where,
-} from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
-import { app } from "../../config/firebaseConfig";
-import { formatSize } from "../../utils/helpers";
+import { formatSize, sumNumbers } from "../../utils/helpers";
 
-const StorageInformation = () => {
-  const { data: session } = useSession();
-  const db = getFirestore(app);
-  const [totalSizeUsed, setTotalSizeUsed] = useState(0);
-  const [imageSize, setImageSize] = useState(0);
-
-  const [fileList, setFileList] = useState([]);
-  let totalSize = 0;
-  useEffect(() => {
-    if (session) {
-      totalSize = 0;
-      getAllFiles();
-    }
-  }, [session]);
-
-  useEffect(() => {
-    setImageSize(formatSize(fileList, ["png", "jpg"]));
-  }, [fileList]);
-  const getAllFiles = async () => {
-    const q = query(
-      collection(db, "files"),
-      where("createdBy", "==", session.user.email)
-    );
-    const querySnapshot = await getDocs(q);
-    setFileList([]);
-    querySnapshot.forEach((doc) => {
-      totalSize = totalSize + doc.data()["size"];
-      setFileList((fileList) => [...fileList, doc.data()]);
-    });
-    console.log({ totalSize });
-    setTotalSizeUsed(formatSize(totalSize));
-  };
-
-  console.log({ size: formatSize(totalSize) });
-
+const StorageInformation = ({ fileList }) => {
+  const totalSize = sumNumbers(fileList);
   return (
     <div className="mt-7">
       <h2
         className="text-[22px] 
        font-bold"
       >
-        {totalSizeUsed}
+        {formatSize(totalSize)}{" "}
         <span
           className="text-[14px]
         font-medium"

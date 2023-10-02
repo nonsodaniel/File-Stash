@@ -6,14 +6,14 @@ import "../styles/globals.css";
 import { SessionProvider } from "next-auth/react";
 import { RootFolderContext } from "../context/RootFolderContext";
 import Storage from "../components/Storage/Storage";
-import Loader from "../components/Loader";
+
 import { ShowLoaderContext } from "../context/showLoaderContext";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const [toastMessage, setToastMessage] = useState(null);
   const [rootFolderId, setRootFolderId] = useState();
   const [loading, setLoading] = useState<boolean>(true);
-  console.log({ toastMessage });
+
   return (
     <SessionProvider session={session}>
       <ShowLoaderContext.Provider value={{ loading, setLoading }}>
@@ -37,7 +37,6 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
               </div>
             </div>
             {toastMessage && <Toast {...toastMessage} />}
-            {loading && <Loader />}
           </ShowToastContext.Provider>
         </RootFolderContext.Provider>
       </ShowLoaderContext.Provider>

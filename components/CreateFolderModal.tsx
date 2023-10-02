@@ -1,47 +1,31 @@
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { app } from "../config/firebaseConfig";
-import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { doc, getFirestore, serverTimestamp, setDoc } from "firebase/firestore";
 import { ShowToastContext } from "../context/ShowToastContext";
 import { RootFolderContext } from "../context/RootFolderContext";
+import useFolderList from "../hooks/useFolderList";
 
 const CreateFolderModal = () => {
-  const [folderName, setFolderName] = useState();
+  const [folderName, setFolderName] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const { toastMessage, setToastMessage } = useContext(ShowToastContext);
   const { data: session } = useSession();
   const db = getFirestore(app);
   const docId = Date.now().toString();
   const { rootFolderId, setRootFolderId } = useContext(RootFolderContext);
+  const { createFolderHandler } = useFolderList();
 
-  const createFolderHandler = async () => {
-    setIsLoading(true);
-    const postObj = {
+  const createFolder = async () => {
+    const folderData = {
       name: folderName,
       id: docId,
-      createBy: session.user.email,
+      createdBy: session.user.email,
+      createdAt: serverTimestamp(),
       rootFolderId,
     };
-    setDoc(doc(db, "Folders", docId), postObj)
-      .then(() => {
-        console.log("Experiment success");
-        setToastMessage({
-          message: "Folder successfully created",
-          status: "success",
-        });
-      })
-      .catch(() => {
-        console.log("Experiment failed");
-        setToastMessage({
-          message: "Folder creation failed",
-          status: "error",
-        });
-      })
-      .finally(() => {
-        console.log("Experiment completed");
-        setIsLoading(false);
-      });
+    createFolderHandler(folderData, setFolderName);
   };
 
   return (
@@ -61,11 +45,12 @@ const CreateFolderModal = () => {
             className="p-2 border-[1px] outline-none
                 rounded-md"
             onChange={(e: any) => setFolderName(e.target.value)}
+            autoFocus
           />
           <button
             className="bg-blue-500
           text-white rounded-md p-2 px-3 w-full"
-            onClick={() => createFolderHandler()}
+            onClick={() => createFolder()}
           >
             Create
           </button>

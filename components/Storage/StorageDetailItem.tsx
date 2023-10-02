@@ -1,7 +1,6 @@
 import React from "react";
 
 const StorageDetailItem = ({ item }) => {
-  console.log(item.size);
   return (
     <>
       <div
