@@ -31,7 +31,7 @@ function FolderDetails() {
     setFolderList([]);
     const q = query(
       collection(db, "Folders"),
-      where("createBy", "==", session.user?.email),
+      where("createdBy", "==", session.user?.email),
       where("rootFolderId", "==", id)
     );
 

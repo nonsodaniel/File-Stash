@@ -1,55 +1,9 @@
-import { doc, getFirestore, setDoc } from "firebase/firestore";
-import React, { useContext } from "react";
-import { useSession } from "next-auth/react";
-import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-import { app } from "../../config/firebaseConfig";
-import { ShowToastContext } from "../../context/ShowToastContext";
-import { RootFolderContext } from "../../context/RootFolderContext";
+import React from "react";
+import useFileList from "../../hooks/useFileList";
 function UploadFileModal({ closeModal }) {
-  const { data: session } = useSession();
-  const { rootFolderId, setRootFolderId } = useContext(RootFolderContext);
-  const { toastMessage, setToastMessage } = useContext(ShowToastContext);
-
-  const docId = Date.now();
-  const db = getFirestore(app);
-  const storage = getStorage(app);
-
-  const onFileUpload = async (file) => {
-    if (file) {
-      if (file?.size > 1000000) {
-        setToastMessage({
-          message: "File is too large",
-          status: "error",
-        });
-        return;
-      }
-      const fileReference = ref(storage, "file/" + file.name);
-      uploadBytes(fileReference, file)
-        .then((snapshot) => {
-          console.log("Uploaded a blob or file!", { snapshot });
-        })
-        .then(() => {
-          getDownloadURL(fileReference).then(async (downloadUrl) => {
-            await setDoc(doc(db, "files", docId.toString()), {
-              name: file.name,
-              type: file.name.split(".")[1],
-              size: file.size,
-              createdBy: session.user.email,
-              modifiedAt: file.lastModified,
-              rootFolderId,
-              imageUrl: downloadUrl,
-              id: docId,
-            });
-          });
-        });
-
-      console.log("got here");
-      closeModal(true);
-      setToastMessage({
-        message: "File Uploaded Successfully!",
-        status: "success",
-      });
-    }
+  const { handleUploadFile } = useFileList();
+  const onFileUpload = (file) => {
+    handleUploadFile(file, closeModal);
   };
   return (
     <div>

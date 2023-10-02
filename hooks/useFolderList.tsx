@@ -35,10 +35,6 @@ const useFolderList = () => {
           message: "Folder creation failed",
           status: "error",
         });
-        setData((prevData) => ({
-          ...prevData,
-          folderList: [...prevData.folderList, folderData],
-        }));
 
         setFolderList((prevFolderList) => [...prevFolderList, folderData]);
       })
