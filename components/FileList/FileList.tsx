@@ -3,8 +3,8 @@ import FileItem from "./FileItem";
 import Loader from "../Loader";
 interface IFileListProps {
   fileList: any;
-  isFileLoading: boolean;
-  showHeader: boolean;
+  isFileLoading?: boolean;
+  showHeader?: boolean;
 }
 
 function FileList({ fileList, isFileLoading, showHeader }: IFileListProps) {

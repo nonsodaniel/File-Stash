@@ -1,6 +1,6 @@
 import React from "react";
 
-const FolderHeader = ({ isBig, type }: { isBig: boolean; type: string }) => {
+const FolderHeader = ({ isBig, type }: { isBig: boolean; type?: string }) => {
   return (
     <div>
       {isBig ? (
