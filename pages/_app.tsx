@@ -6,6 +6,7 @@ import "../styles/globals.css";
 import { SessionProvider } from "next-auth/react";
 import { RootFolderContext } from "../context/RootFolderContext";
 import UserInformation from "../components/Storage/UserInformation";
+import Storage from "../components/Storage/Storage";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const [showToastMesage, setShowToastMessage] = useState();
@@ -29,7 +30,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
                 className="bg-white p-5
          order-first md:order-last"
               >
-                <UserInformation />
+                <Storage />
               </div>
             </div>
           </div>
