@@ -1,42 +1,46 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import SideNavBar from "../components/SideNavBar";
 import Toast from "../components/Toast";
 import { ShowToastContext } from "../context/ShowToastContext";
 import "../styles/globals.css";
 import { SessionProvider } from "next-auth/react";
 import { RootFolderContext } from "../context/RootFolderContext";
-import UserInformation from "../components/Storage/UserInformation";
 import Storage from "../components/Storage/Storage";
+import Loader from "../components/Loader";
+import { ShowLoaderContext } from "../context/showLoaderContext";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
-  const [showToastMesage, setShowToastMessage] = useState();
+  const [toastMessage, setToastMessage] = useState(null);
   const [rootFolderId, setRootFolderId] = useState();
+  const [loading, setLoading] = useState<boolean>(true);
+  console.log({ toastMessage });
   return (
     <SessionProvider session={session}>
-      <RootFolderContext.Provider value={{ rootFolderId, setRootFolderId }}>
-        <ShowToastContext.Provider
-          value={{ showToastMesage, setShowToastMessage }}
-        >
-          <div className="flex">
-            <SideNavBar />
-            <div
-              className="grid grid-cols-1
-        md:grid-cols-3 w-full"
-            >
-              <div className="col-span-2">
-                <Component {...pageProps} />
-              </div>
+      <ShowLoaderContext.Provider value={{ loading, setLoading }}>
+        <RootFolderContext.Provider value={{ rootFolderId, setRootFolderId }}>
+          <ShowToastContext.Provider value={{ toastMessage, setToastMessage }}>
+            <div className="flex">
+              <SideNavBar />
               <div
-                className="bg-white p-5
-         order-first md:order-last"
+                className="grid grid-cols-1
+        md:grid-cols-3 w-full"
               >
-                <Storage />
+                <div className="col-span-2">
+                  <Component {...pageProps} />
+                </div>
+                <div
+                  className="bg-white p-5
+         order-first md:order-last bg-white p-5 order-first md:order-last  h-screen sticky top-0 z-10"
+                >
+                  <Storage />
+                </div>
               </div>
             </div>
-          </div>
-          {showToastMesage && <Toast message={showToastMesage} />}
-        </ShowToastContext.Provider>
-      </RootFolderContext.Provider>
+            {toastMessage && <Toast {...toastMessage} />}
+            {loading && <Loader />}
+          </ShowToastContext.Provider>
+        </RootFolderContext.Provider>
+      </ShowLoaderContext.Provider>
     </SessionProvider>
   );
 }

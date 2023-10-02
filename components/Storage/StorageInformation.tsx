@@ -51,7 +51,7 @@ const StorageInformation = () => {
         className="text-[22px] 
        font-bold"
       >
-        {totalSizeUsed}{" "}
+        {totalSizeUsed}
         <span
           className="text-[14px]
         font-medium"

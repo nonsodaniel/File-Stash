@@ -9,13 +9,15 @@ const FileItem = ({ file }) => {
   const image = "/" + file.type + ".png";
   const db = getFirestore(app);
 
-  const { showToastMessage, setShowToastMessage } =
-    useContext(ShowToastContext);
+  const { toastMessage, setToastMessage } = useContext(ShowToastContext);
   const deleteFile = async (e) => {
     const id = e.target.id;
     console.log(id);
     await deleteDoc(doc(db, "files", id.toString())).then((resp) => {
-      setShowToastMessage("File Successfully Deleted!!!");
+      setToastMessage({
+        message: "File Successfully Deleted",
+        status: "success",
+      });
     });
   };
 

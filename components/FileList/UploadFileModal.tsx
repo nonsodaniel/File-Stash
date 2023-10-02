@@ -8,8 +8,7 @@ import { RootFolderContext } from "../../context/RootFolderContext";
 function UploadFileModal({ closeModal }) {
   const { data: session } = useSession();
   const { rootFolderId, setRootFolderId } = useContext(RootFolderContext);
-  const { showToastMessage, setShowToastMessage } =
-    useContext(ShowToastContext);
+  const { toastMessage, setToastMessage } = useContext(ShowToastContext);
 
   const docId = Date.now();
   const db = getFirestore(app);
@@ -18,7 +17,10 @@ function UploadFileModal({ closeModal }) {
   const onFileUpload = async (file) => {
     if (file) {
       if (file?.size > 1000000) {
-        setShowToastMessage("File is too large");
+        setToastMessage({
+          message: "File is too large",
+          status: "error",
+        });
         return;
       }
       const fileReference = ref(storage, "file/" + file.name);
@@ -43,7 +45,10 @@ function UploadFileModal({ closeModal }) {
 
       console.log("got here");
       closeModal(true);
-      setShowToastMessage("File Uploaded Successfully!");
+      setToastMessage({
+        message: "File Uploaded Successfully!",
+        status: "success",
+      });
     }
   };
   return (

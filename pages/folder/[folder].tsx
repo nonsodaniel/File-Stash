@@ -23,8 +23,7 @@ function FolderDetails() {
   const [folderList, setFolderList] = useState([]);
   const [fileList, setFileList] = useState([]);
   const { rootFolderId, setRootFolderId } = useContext(RootFolderContext);
-  const { showToastMessage, setShowToastMessage } =
-    useContext(ShowToastContext);
+  const { toastMessage, setToastMessage } = useContext(ShowToastContext);
 
   const db = getFirestore(app);
 
@@ -49,7 +48,7 @@ function FolderDetails() {
       getFolderList();
       getFileList();
     }
-  }, [id, session, showToastMessage]);
+  }, [id, session, toastMessage]);
 
   const getFileList = async () => {
     setFileList([]);

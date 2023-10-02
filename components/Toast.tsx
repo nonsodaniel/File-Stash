@@ -1,18 +1,20 @@
 import React, { useContext, useEffect } from "react";
 import { ShowToastContext } from "../context/ShowToastContext";
+interface IToastProps {
+  message: string;
+  status: string;
+}
 
-function Toast({ message }: { message: string }) {
-  const { showToastMessage, setShowToastMessage } =
-    useContext(ShowToastContext);
+function Toast({ message, status }: IToastProps) {
+  const { toastMessage, setToastMessage } = useContext(ShowToastContext);
   useEffect(() => {
-    setInterval(() => {
-      setShowToastMessage(null);
+    setTimeout(() => {
+      setToastMessage(null);
     }, 3000);
-    console.log("fired");
-  }, [showToastMessage]);
+  }, [toastMessage]);
   return (
-    <div className="toast toast-top toast-end">
-      <div className="alert alert-success">
+    <div className="toast toast-top toast-end z-10">
+      <div className={`alert alert-${status}`}>
         <span>{message}</span>
       </div>
     </div>

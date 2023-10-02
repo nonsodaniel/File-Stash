@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import FolderItem from "./FolderItem";
 import { useRouter } from "next/router";
 import FolderItemSmall from "./FolderItemSmall";
+import { ShowToastContext } from "../../context/ShowToastContext";
 
 function FolderList({ folderList, isBig = true }) {
   const [activeFolder, setActiveFolder] = useState();
   const router = useRouter();
-
   const onFolderClick = (index, item) => {
     setActiveFolder(index);
     router.push({
@@ -24,7 +24,7 @@ function FolderList({ folderList, isBig = true }) {
     >
       {isBig ? (
         <h2
-          className="text-17px] 
+          className="text-[17px] 
         font-bold 
         items-center"
         >

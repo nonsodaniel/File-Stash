@@ -8,24 +8,42 @@ import { RootFolderContext } from "../context/RootFolderContext";
 
 const CreateFolderModal = () => {
   const [folderName, setFolderName] = useState();
-  const { showToastMessage, setShowToastMessage } =
-    useContext(ShowToastContext);
+  const [isLoading, setIsLoading] = useState(false);
+  const { toastMessage, setToastMessage } = useContext(ShowToastContext);
   const { data: session } = useSession();
   const db = getFirestore(app);
   const docId = Date.now().toString();
   const { rootFolderId, setRootFolderId } = useContext(RootFolderContext);
 
   const createFolderHandler = async () => {
-    await setDoc(doc(db, "Folders", docId), {
+    setIsLoading(true);
+    const postObj = {
       name: folderName,
       id: docId,
       createBy: session.user.email,
       rootFolderId,
-    });
-    setShowToastMessage("Folder successfully created");
+    };
+    setDoc(doc(db, "Folders", docId), postObj)
+      .then(() => {
+        console.log("Experiment success");
+        setToastMessage({
+          message: "Folder successfully created",
+          status: "success",
+        });
+      })
+      .catch(() => {
+        console.log("Experiment failed");
+        setToastMessage({
+          message: "Folder creation failed",
+          status: "error",
+        });
+      })
+      .finally(() => {
+        console.log("Experiment completed");
+        setIsLoading(false);
+      });
   };
 
-  console.log("create", showToastMessage);
   return (
     <div>
       <form method="dialog" className="modal-box p-9 items-center">
