@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { menuList } from "../utils/db";
 import CreateFolderModal from "./CreateFolderModal";
 import UploadFileModal from "./FileList/UploadFileModal";
+import Link from "next/link";
 
 const SideNavBar = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
@@ -72,7 +73,8 @@ const SideNavBar = () => {
       </button>
       <div className="mt-7">
         {menuList.map((item, index) => (
-          <h2
+          <Link
+            href={item.url}
             key={index}
             className={`flex gap-2 items-center
             p-2 mt-3 text-gray-500 rounded-md cursor-pointer
@@ -95,7 +97,7 @@ const SideNavBar = () => {
               />
             </svg>
             {item.name}
-          </h2>
+          </Link>
         ))}
       </div>
 

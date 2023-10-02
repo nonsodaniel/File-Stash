@@ -68,14 +68,14 @@ const useFileList = () => {
   };
 
   useEffect(() => {
-    const fetchFileList = async () => {
+    const fetchAllFileList = async () => {
       setLoading(true);
       setFileList([]); // Clear existing folder list
 
       try {
         const q = query(
           collection(db, "files"),
-          where("rootFolderId", "==", 0),
+
           where("createdBy", "==", session.user.email)
         );
 
@@ -95,7 +95,7 @@ const useFileList = () => {
     };
 
     if (userSession) {
-      fetchFileList();
+      fetchAllFileList();
     }
   }, [userSession]);
 

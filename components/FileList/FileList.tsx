@@ -4,9 +4,10 @@ import Loader from "../Loader";
 interface IFileListProps {
   fileList: any;
   isFileLoading: boolean;
+  showHeader: boolean;
 }
 
-function FileList({ fileList, isFileLoading }: IFileListProps) {
+function FileList({ fileList, isFileLoading, showHeader }: IFileListProps) {
   const renderFiileListItem = fileList.map((item, index) => (
     <div key={index}>
       <FileItem file={item} key={index} />
@@ -17,7 +18,7 @@ function FileList({ fileList, isFileLoading }: IFileListProps) {
       className="bg-white mt-5 p-5
     rounded-lg"
     >
-      <h2 className="text-[18px] font-bold">Recent Files</h2>
+      {showHeader && <h2 className="text-[18px] font-bold">Recent Files</h2>}
       <div
         className="grid grid-cols-1
         md:grid-cols-2 
