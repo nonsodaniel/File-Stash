@@ -6,9 +6,14 @@ import FolderItemSmall from "./FolderItemSmall";
 interface IFolderListProps {
   folderList: any;
   isBig?: boolean;
+  isFullScreen?: boolean;
 }
 
-function FolderList({ folderList, isBig = true }: IFolderListProps) {
+function FolderList({
+  folderList,
+  isFullScreen,
+  isBig = true,
+}: IFolderListProps) {
   const [activeFolder, setActiveFolder] = useState();
   const router = useRouter();
   const onFolderClick = (index, item) => {
@@ -25,11 +30,11 @@ function FolderList({ folderList, isBig = true }: IFolderListProps) {
     <Fragment>
       {isBig ? (
         <div
-          className="grid grid-cols-2
+          className={`grid grid-cols-2
         md:grid-cols-3
         lg:grid-cols-4
         xl:grid-cols-5 mt-3
-        gap-4 h-60 max-h-full overflow-y-scroll"
+        gap-4 h-60 ${!isFullScreen && "max-h-full overflow-y-scroll"}`}
         >
           {folderList.map((item, index) => (
             <div key={index} onClick={() => onFolderClick(index, item)}>

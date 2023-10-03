@@ -20,14 +20,17 @@ const SideNavBar = () => {
     p-5"
     >
       <div className="flex justify-center">
-        <span className="text-red" onClick={() => router.push("/")}>
-          File Stash
-        </span>
+        <Link
+          className="text-2xl font-bold text-blue-500 tracking-wide"
+          href="/"
+        >
+          File <span className="text-yellow-500">Stash</span>
+        </Link>
       </div>
 
       <button
         className="flex gap-2 items-center text-[13px]
-        bg-blue-500 p-2 text-white rounded-md px-3
+        bg-blue-500 bg-opacity-75 p-2 text-white rounded-md px-3
         hover:scale-105 transition-all mt-5 w-full justify-center"
         //@ts-ignore
         onClick={() => window.create_file_modal.showModal()}
@@ -77,7 +80,9 @@ const SideNavBar = () => {
             href={item.url}
             key={index}
             className={`flex gap-2 items-center
-            p-2 mt-3 text-gray-500 rounded-md cursor-pointer
+            p-2 mt-3 text-gray-500 rounded-md cursor-pointer ${
+              item.isSoon ? "pointer-events-none" : ""
+            }
             hover:bg-blue-500 hover:text-white
             ${activeIndex == index ? "bg-blue-500 text-white" : null}`}
             onClick={() => onMenuClick(item, index)}
@@ -96,7 +101,17 @@ const SideNavBar = () => {
                 d={item.logo}
               />
             </svg>
-            {item.name}
+            {item.name}{" "}
+            {item.isSoon && (
+              <span
+                className="text-xs p-3 
+          rounded-md
+          p-1 bg-yellow-200 text-yellow-600 "
+              >
+                {" "}
+                Upcoming
+              </span>
+            )}
           </Link>
         ))}
       </div>

@@ -32,7 +32,7 @@ export default function Home() {
         {isFolderLoading ? (
           <Loader />
         ) : folderList.length ? (
-          <FolderList isFullScreen folderList={folderList} />
+          <FolderList folderList={folderList} />
         ) : (
           <div className="">Folder list is currrently empty</div>
         )}
