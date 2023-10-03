@@ -7,10 +7,12 @@ import {
   setDoc,
   doc,
   getFirestore,
+  deleteDoc,
 } from "firebase/firestore";
 import { ShowToastContext } from "../context/ShowToastContext";
 import { app } from "../config/firebaseConfig";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const useFolderList = () => {
   const { data: session } = useSession();
@@ -20,6 +22,7 @@ const useFolderList = () => {
 
   const { setToastMessage } = useContext(ShowToastContext);
   const db = getFirestore(app);
+  const router = useRouter;
 
   const createFolderHandler = async (folderData, setFolderName) => {
     setLoading(true);
@@ -67,13 +70,29 @@ const useFolderList = () => {
       setLoading(false);
     }
   };
+  const onDeleteFolder = async (id) => {
+    // const deleteItem = fileList.filter((o) => o.id !== file.id);
+    // console.log({ deleteItem });
+    await deleteDoc(doc(db, "Folders", id.toString())).then((resp) => {
+      setToastMessage({
+        message: "Folder Successfully Deleted",
+        status: "success",
+      });
+    });
+  };
   useEffect(() => {
     if (userSession) {
       fetchFolderList();
     }
   }, [userSession]);
 
-  return { isFolderLoading, folderList, fetchFolderList, createFolderHandler };
+  return {
+    isFolderLoading,
+    folderList,
+    fetchFolderList,
+    createFolderHandler,
+    onDeleteFolder,
+  };
 };
 
 export default useFolderList;
