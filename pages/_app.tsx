@@ -19,7 +19,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
       <ShowLoaderContext.Provider value={{ loading, setLoading }}>
         <RootFolderContext.Provider value={{ rootFolderId, setRootFolderId }}>
           <ShowToastContext.Provider value={{ toastMessage, setToastMessage }}>
-            <div className="flex">
+            <div className="flex flex-col sm:flex-row">
               <SideNavBar />
               <div
                 className="grid grid-cols-1

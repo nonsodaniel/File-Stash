@@ -1,25 +1,24 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import moment from "moment/moment";
 import Image from "next/image";
 import { ShowToastContext } from "../../context/ShowToastContext";
 import { deleteDoc, doc, getFirestore } from "firebase/firestore";
 import { app } from "../../config/firebaseConfig";
+import useFileList from "../../hooks/useFileList";
 
 const FileItem = ({ file }) => {
   const image = "/" + file.type + ".png";
-  const db = getFirestore(app);
 
-  const { toastMessage, setToastMessage } = useContext(ShowToastContext);
-  const deleteFile = async (e) => {
-    const id = e.target.id;
-    console.log(id);
-    await deleteDoc(doc(db, "files", id.toString())).then((resp) => {
-      setToastMessage({
-        message: "File Successfully Deleted",
-        status: "success",
-      });
-    });
+  const { toastMessage } = useContext(ShowToastContext);
+  const { fetchAllFileList, onDeleteFile } = useFileList();
+
+  const deleteFile = () => {
+    onDeleteFile(file);
   };
+
+  useEffect(() => {
+    fetchAllFileList();
+  }, [toastMessage]);
 
   return (
     <div
