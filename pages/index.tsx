@@ -10,6 +10,7 @@ import Loader from "../components/Loader";
 import FileHeader from "../components/FileList/FileHeader";
 import TopHeader from "../components/TopHeader";
 import EmptyState from "../components/EmptyState";
+import AppLayout from "../components/layout/AppLayout";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -23,34 +24,36 @@ export default function Home() {
   }, [session]);
 
   return (
-    <div className={"p-5 folder-section"}>
-      <TopHeader showBackBtn={false} />
-      <div
-        className="p-5 mt-5 
+    <AppLayout>
+      <div className={"p-5 folder-section"}>
+        <TopHeader showBackBtn={false} />
+        <div
+          className="p-5 mt-5 
         bg-white rounded-lg"
-      >
-        <FolderHeader isBig={true} />
+        >
+          <FolderHeader isBig={true} />
 
-        {isFolderLoading ? (
-          <Loader />
-        ) : folderList.length > 0 ? (
-          <FolderList folderList={folderList} />
-        ) : (
-          <EmptyState message="Folder" />
-        )}
+          {isFolderLoading ? (
+            <Loader />
+          ) : folderList.length > 0 ? (
+            <FolderList folderList={folderList} />
+          ) : (
+            <EmptyState message="Folder" />
+          )}
+        </div>
+
+        <div className="bg-white mt-5 p-5 rounded-lg">
+          <FileHeader showHeader={true} />
+
+          {isFileLoading ? (
+            <Loader />
+          ) : folderList.length > 0 ? (
+            <FileList fileList={fileList} />
+          ) : (
+            <EmptyState message="File" />
+          )}
+        </div>
       </div>
-
-      <div className="bg-white mt-5 p-5 rounded-lg">
-        <FileHeader showHeader={true} />
-
-        {isFileLoading ? (
-          <Loader />
-        ) : folderList.length > 0 ? (
-          <FileList fileList={fileList} />
-        ) : (
-          <EmptyState message="File" />
-        )}
-      </div>
-    </div>
+    </AppLayout>
   );
 }

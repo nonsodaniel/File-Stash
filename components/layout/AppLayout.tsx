@@ -1,0 +1,25 @@
+import React from "react";
+import SideNavBar from "../SideNavBar";
+import Storage from "../Storage/Storage";
+
+const AppLayout = ({ children }) => {
+  return (
+    <div className="flex flex-col sm:flex-row">
+      <SideNavBar />
+      <div
+        className="grid grid-cols-1
+md:grid-cols-3 w-full"
+      >
+        <div className="col-span-2">{children}</div>
+        <div
+          className="bg-white p-5
+order-first md:order-last bg-white p-5 order-first md:order-last  h-screen sticky top-0 z-10"
+        >
+          <Storage />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AppLayout;

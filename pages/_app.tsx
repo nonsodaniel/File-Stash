@@ -11,6 +11,7 @@ import { ShowLoaderContext } from "../context/showLoaderContext";
 import { DataContext } from "../context/DataContext";
 import { useRouter } from "next/router";
 import Login from "./login";
+import AppLayout from "../components/layout/AppLayout";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const [toastMessage, setToastMessage] = useState(null);
@@ -37,23 +38,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
             <ShowToastContext.Provider
               value={{ toastMessage, setToastMessage }}
             >
-              <div className="flex flex-col sm:flex-row">
-                <SideNavBar />
-                <div
-                  className="grid grid-cols-1
-          md:grid-cols-3 w-full"
-                >
-                  <div className="col-span-2">
-                    <Component {...pageProps} />
-                  </div>
-                  <div
-                    className="bg-white p-5
-           order-first md:order-last bg-white p-5 order-first md:order-last  h-screen sticky top-0 z-10"
-                  >
-                    <Storage />
-                  </div>
-                </div>
-              </div>
+              <Component {...pageProps} />
               {toastMessage && <Toast {...toastMessage} />}
             </ShowToastContext.Provider>
           </RootFolderContext.Provider>

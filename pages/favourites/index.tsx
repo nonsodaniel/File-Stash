@@ -8,6 +8,7 @@ import FolderHeader from "../../components/Folder/FolderHeader";
 import Loader from "../../components/Loader";
 import FolderList from "../../components/Folder/FolderList";
 import useFolderList from "../../hooks/useFolderList";
+import AppLayout from "../../components/layout/AppLayout";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -21,22 +22,24 @@ export default function Home() {
   }, [session]);
 
   return (
-    <div className={"p-5 folder-section"}>
-      <SearchBar />
-      <div
-        className="p-5 mt-5 
+    <AppLayout>
+      <div className={"p-5 folder-section"}>
+        <SearchBar />
+        <div
+          className="p-5 mt-5 
         bg-white rounded-lg"
-      >
-        <FolderHeader type="Folders" isBig={true} />
+        >
+          <FolderHeader type="Folders" isBig={true} />
 
-        {isFolderLoading ? (
-          <Loader />
-        ) : folderList.length ? (
-          <FolderList folderList={folderList} />
-        ) : (
-          <div className="">Folder list is currrently empty</div>
-        )}
+          {isFolderLoading ? (
+            <Loader />
+          ) : folderList.length ? (
+            <FolderList folderList={folderList} />
+          ) : (
+            <div className="">Folder list is currrently empty</div>
+          )}
+        </div>
       </div>
-    </div>
+    </AppLayout>
   );
 }
