@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SideNavBar from "../components/SideNavBar";
 import Toast from "../components/Toast";
 import { ShowToastContext } from "../context/ShowToastContext";
@@ -9,6 +9,8 @@ import Storage from "../components/Storage/Storage";
 
 import { ShowLoaderContext } from "../context/showLoaderContext";
 import { DataContext } from "../context/DataContext";
+import { useRouter } from "next/router";
+import Login from "./login";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const [toastMessage, setToastMessage] = useState(null);
@@ -17,7 +19,14 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
 
   const [fileList, setFileList] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const router = useRouter();
 
+  useEffect(() => {
+    if (!session) {
+      router.push("/login");
+    }
+  }, [session]);
+  console.log("session", session);
   return (
     <SessionProvider session={session}>
       <DataContext.Provider
@@ -32,14 +41,14 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
                 <SideNavBar />
                 <div
                   className="grid grid-cols-1
-        md:grid-cols-3 w-full"
+          md:grid-cols-3 w-full"
                 >
                   <div className="col-span-2">
                     <Component {...pageProps} />
                   </div>
                   <div
                     className="bg-white p-5
-         order-first md:order-last bg-white p-5 order-first md:order-last  h-screen sticky top-0 z-10"
+           order-first md:order-last bg-white p-5 order-first md:order-last  h-screen sticky top-0 z-10"
                   >
                     <Storage />
                   </div>

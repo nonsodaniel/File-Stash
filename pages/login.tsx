@@ -15,12 +15,13 @@ const Login = () => {
   }, [session]);
 
   return (
-    <div
-      className="flex justify-center 
-  items-center mt-[25%] ml-[0%] md:ml-[50%] flex-col gap-6"
-    >
-      <Image src="/logo.png" alt="logo" width={200} height={100} />
-      <button className=" text-white" onClick={() => signIn()}>
+    <div className="flex flex-col justify-center items-center h-screen bg-gray-100">
+      <div className="max-w-md w-full text-center">
+        <a className="text-2xl font-bold text-blue-500 tracking-wide" href="#">
+          File <span className="text-yellow-500">Stash</span>
+        </a>
+      </div>
+      <button className="text-white" onClick={() => signIn()}>
         <Image src="/google.png" alt="google" width={300} height={300} />
       </button>
     </div>
