@@ -6,6 +6,8 @@ import useFileList from "../../hooks/useFileList";
 import FolderHeader from "../../components/Folder/FolderHeader";
 import Loader from "../../components/Loader";
 import FileList from "../../components/FileList/FileList";
+import TopHeader from "../../components/TopHeader";
+import EmptyState from "../../components/EmptyState";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -19,23 +21,17 @@ export default function Home() {
 
   return (
     <div className={"p-5 folder-section"}>
-      <SearchBar />
+      <TopHeader />
       <div
         className="p-5 mt-5 
         bg-white rounded-lg"
       >
-        <FolderHeader type="Files" isBig={true} />
-
         {isFileLoading ? (
           <Loader />
         ) : fileList.length ? (
-          <FileList
-            showHeader={false}
-            fileList={fileList}
-            isFileLoading={isFileLoading}
-          />
+          <FileList showHeader={true} fileList={fileList} />
         ) : (
-          <div className="">File Is empty</div>
+          <EmptyState message="File" />
         )}
       </div>
     </div>

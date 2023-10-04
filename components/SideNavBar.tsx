@@ -55,7 +55,7 @@ const SideNavBar = () => {
           <AiOutlineFolderAdd />
         </span>
       </button>
-      <div className="mt-16">
+      <div className="mt-8">
         {menuList.map((item, index) => (
           <Link
             href={item.url}

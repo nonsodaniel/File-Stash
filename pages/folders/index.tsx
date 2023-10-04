@@ -6,6 +6,7 @@ import FolderHeader from "../../components/Folder/FolderHeader";
 import Loader from "../../components/Loader";
 import FolderList from "../../components/Folder/FolderList";
 import useFolderList from "../../hooks/useFolderList";
+import TopHeader from "../../components/TopHeader";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -19,17 +20,17 @@ export default function Home() {
 
   return (
     <div className={"p-5 folder-section"}>
-      <SearchBar />
+      <TopHeader />
       <div
         className="p-5 mt-5 
-        bg-white rounded-lg"
+        bg-white rounded-lg pb-11"
       >
         <FolderHeader type="Folders" isBig={true} />
 
         {isFolderLoading ? (
           <Loader />
         ) : folderList.length ? (
-          <FolderList isFullScreen folderList={folderList} />
+          <FolderList isFullScreen={false} folderList={folderList} />
         ) : (
           <div className="">Folder list is currrently empty</div>
         )}

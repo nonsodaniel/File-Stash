@@ -14,17 +14,18 @@ import { useSession } from "next-auth/react";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { ShowToastContext } from "../context/ShowToastContext";
 import { RootFolderContext } from "../context/RootFolderContext";
+import { DataContext } from "../context/DataContext";
 
 const useFileList = () => {
   const { data: session } = useSession();
   const db = getFirestore(app);
   const [isFileLoading, setLoading] = useState(false);
-  const [fileList, setFileList] = useState([]);
   const userSession = session?.user;
   const docId = Date.now();
   const storage = getStorage(app);
   const { setToastMessage } = useContext(ShowToastContext);
   const { rootFolderId } = useContext(RootFolderContext);
+  const { fileList, setFileList } = useContext(DataContext);
 
   const handleUploadFile = (file, closeModal) => {
     if (file) {
@@ -41,6 +42,16 @@ const useFileList = () => {
   };
 
   const createFile = (file, closeModal) => {
+    const fileData = {
+      name: file.name,
+      type: file.name.split(".")[1],
+      size: file.size,
+      createdBy: session.user.email,
+      modifiedAt: file.lastModified,
+      imageUrl: "",
+      rootFolderId,
+      id: docId,
+    };
     const fileReference = ref(storage, "file/" + file.name);
     uploadBytes(fileReference, file)
       .then((snapshot) => {
@@ -48,38 +59,48 @@ const useFileList = () => {
       })
       .then(() => {
         getDownloadURL(fileReference).then(async (downloadUrl) => {
-          await setDoc(doc(db, "files", docId.toString()), {
-            name: file.name,
-            type: file.name.split(".")[1],
-            size: file.size,
-            createdBy: session.user.email,
-            modifiedAt: file.lastModified,
-            rootFolderId,
-            imageUrl: downloadUrl,
-            id: docId,
-          });
+          fileData.imageUrl = downloadUrl;
+          await setDoc(doc(db, "files", docId.toString()), fileData);
         });
+      })
+      .then(() => {
+        setToastMessage({
+          message: "File Uploaded Successfully!",
+          status: "success",
+        });
+        console.log("fileData", fileData);
+        setFileList((prevFileList) => [...prevFileList, fileData]);
+      })
+      .catch(() => {
+        setToastMessage({
+          message: "File upload failed",
+          status: "error",
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+        closeModal(true);
       });
-
-    closeModal(true);
-    setToastMessage({
-      message: "File Uploaded Successfully!",
-      status: "success",
-    });
   };
   const onDeleteFile = async (file) => {
     // const deleteItem = fileList.filter((o) => o.id !== file.id);
     // console.log({ deleteItem });
-    await deleteDoc(doc(db, "files", file.id.toString())).then((resp) => {
-      setToastMessage({
-        message: "File Successfully Deleted",
-        status: "success",
+    await deleteDoc(doc(db, "files", file.id.toString()))
+      .then(() => {
+        setToastMessage({
+          message: "File Successfully Deleted",
+          status: "success",
+        });
+        setFileList((prevFileList) =>
+          prevFileList.filter((item) => item.id !== file.id)
+        );
+      })
+      .catch(() => {
+        setToastMessage({
+          message: "File could not be deleted",
+          status: "error",
+        });
       });
-    });
-
-    setFileList((prevFileList) =>
-      prevFileList.filter((item) => item.id !== file.id)
-    );
   };
   const fetchAllFileList = async () => {
     setLoading(true);
@@ -111,14 +132,13 @@ const useFileList = () => {
     if (userSession) {
       fetchAllFileList();
     }
-  }, [userSession]);
+  }, [userSession, setFileList, db, session]);
 
   return {
     isFileLoading,
     fileList,
-    handleUploadFile,
     fetchAllFileList,
-    setFileList,
+    handleUploadFile,
     onDeleteFile,
   };
 };

@@ -15,6 +15,9 @@ import { app } from "../../config/firebaseConfig";
 import { ShowToastContext } from "../../context/ShowToastContext";
 import FileList from "../../components/FileList/FileList";
 import useFolderList from "../../hooks/useFolderList";
+import TopHeader from "../../components/TopHeader";
+import EmptyState from "../../components/EmptyState";
+import HorizontalLine from "../../components/HorizontalLine";
 
 function FolderDetails() {
   const router = useRouter();
@@ -70,7 +73,7 @@ function FolderDetails() {
   };
   return (
     <div className="p-5">
-      <SearchBar />
+      <TopHeader showBackBtn />
       <h2 className="text-[20px] font-bold mt-5">
         {name}
         <span onClick={handleDelete}>
@@ -95,22 +98,14 @@ function FolderDetails() {
       {folderList.length > 0 ? (
         <FolderList folderList={folderList} isBig={false} />
       ) : (
-        <h2
-          className="text-gray-400
-        text-[16px] mt-5"
-        >
-          No Folder Found
-        </h2>
+        <EmptyState message="Folder" />
       )}
+
+      <HorizontalLine />
       {fileList.length > 0 ? (
         <FileList fileList={fileList} />
       ) : (
-        <h2
-          className="text-gray-400
-        text-[16px] mt-5"
-        >
-          No File Found
-        </h2>
+        <EmptyState message="File" />
       )}
     </div>
   );

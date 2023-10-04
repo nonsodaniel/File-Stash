@@ -14,11 +14,14 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const [toastMessage, setToastMessage] = useState(null);
   const [rootFolderId, setRootFolderId] = useState();
   const [folderList, setFolderList] = useState([]);
+  const [fileList, setFileList] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   return (
     <SessionProvider session={session}>
-      <DataContext.Provider value={{ folderList, setFolderList }}>
+      <DataContext.Provider
+        value={{ folderList, setFolderList, fileList, setFileList }}
+      >
         <ShowLoaderContext.Provider value={{ loading, setLoading }}>
           <RootFolderContext.Provider value={{ rootFolderId, setRootFolderId }}>
             <ShowToastContext.Provider
