@@ -40,7 +40,7 @@ const SideNavBar = () => {
       >
         Add New File
         <span>
-          <AiOutlineFileAdd />
+          <AiOutlineFileAdd style={{ fontSize: "25px" }} />
         </span>
       </button>
       <button
@@ -52,7 +52,7 @@ const SideNavBar = () => {
       >
         Create Folder
         <span>
-          <AiOutlineFolderAdd />
+          <AiOutlineFolderAdd style={{ fontSize: "25px" }} />
         </span>
       </button>
       <div className="mt-8">
@@ -75,6 +75,7 @@ const SideNavBar = () => {
                 className="text-xs ml-[-4px]
           rounded-md
           p-1 bg-yellow-200 text-yellow-600 "
+                style={{ fontSize: "10px" }}
               >
                 {" "}
                 Upcoming

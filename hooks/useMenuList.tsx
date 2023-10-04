@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { AiOutlineHome, AiOutlineFile } from "react-icons/ai";
 import { FiFolder } from "react-icons/fi";
-import { GrFavorite } from "react-icons/gr";
+import { FcLike } from "react-icons/fc";
 
 interface MenuListProps {
   id: number;
@@ -33,7 +33,7 @@ const menuListData: MenuListProps[] = [
   {
     id: 4,
     name: "Favorites",
-    logo: <GrFavorite style={{ color: "red" }} />,
+    logo: <FcLike style={{ color: "red" }} />,
     url: "/favourites",
     isSoon: true,
   },
