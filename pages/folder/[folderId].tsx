@@ -70,13 +70,18 @@ function FolderDetails() {
 
       <HorizontalLine />
 
-      {isFileLoading ? (
-        <Loader /> // Show loading state while data is being fetched
-      ) : folderList.length > 0 ? (
-        <FileList fileList={fileList} />
-      ) : (
-        <EmptyState message="File" /> // Show empty state when no data is available
-      )}
+      <div
+        className="p-5 mt-5 
+        bg-white rounded-lg"
+      >
+        {isFileLoading ? (
+          <Loader /> // Show loading state while data is being fetched
+        ) : folderList.length > 0 ? (
+          <FileList fileList={fileList} showHeader />
+        ) : (
+          <EmptyState message="File" /> // Show empty state when no data is available
+        )}
+      </div>
     </div>
   );
 }
