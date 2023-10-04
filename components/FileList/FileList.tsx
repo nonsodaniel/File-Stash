@@ -9,7 +9,7 @@ interface IFileListProps {
 
 function FileList({ fileList, showHeader }: IFileListProps) {
   return (
-    <div className="bg-white mt-5 p-5 rounded-lg">
+    <div className="bg-white mt-5  rounded-lg">
       {showHeader && <FileHeader showHeader />}
       {fileList.map((item, index) => (
         <div key={index}>

@@ -2,9 +2,9 @@
 const nextConfig = {
   reactStrictMode: false,
   swcMinify: true,
-  images:{
-    domains:['lh3.googleusercontent.com']
-  }
-}
+  images: {
+    domains: ["lh3.googleusercontent.com"],
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
