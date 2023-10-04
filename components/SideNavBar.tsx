@@ -1,13 +1,16 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { menuList } from "../utils/db";
 import CreateFolderModal from "./CreateFolderModal";
 import UploadFileModal from "./FileList/UploadFileModal";
 import Link from "next/link";
+import { AiOutlineFolderAdd, AiOutlineFileAdd } from "react-icons/ai";
+import { useMenuList } from "../hooks/useMenuList";
 
 const SideNavBar = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const router = useRouter();
+  const menuList = useMenuList();
+  console.log(menuList);
   const onMenuClick = (item, index) => {
     setActiveIndex(index);
     router.push("/");
@@ -36,20 +39,9 @@ const SideNavBar = () => {
         onClick={() => window.create_file_modal.showModal()}
       >
         Add New File
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-6 h-6"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
+        <span>
+          <AiOutlineFileAdd />
+        </span>
       </button>
       <button
         className="flex gap-2 items-center text-[13px]
@@ -59,22 +51,11 @@ const SideNavBar = () => {
         onClick={() => window.my_modal_3.showModal()}
       >
         Create Folder
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-6 h-6"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
+        <span>
+          <AiOutlineFolderAdd />
+        </span>
       </button>
-      <div className="mt-7">
+      <div className="mt-16">
         {menuList.map((item, index) => (
           <Link
             href={item.url}
@@ -87,24 +68,11 @@ const SideNavBar = () => {
             ${activeIndex == index ? "bg-blue-500 text-white" : null}`}
             onClick={() => onMenuClick(item, index)}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d={item.logo}
-              />
-            </svg>
+            <span style={{ fontSize: "25px" }}>{item.logo}</span>
             {item.name}{" "}
             {item.isSoon && (
               <span
-                className="text-xs p-3 
+                className="text-xs ml-[-4px]
           rounded-md
           p-1 bg-yellow-200 text-yellow-600 "
               >

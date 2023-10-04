@@ -10,6 +10,7 @@ import useFolderList from "../hooks/useFolderList";
 import useFileList from "../hooks/useFileList";
 import FolderHeader from "../components/Folder/FolderHeader";
 import Loader from "../components/Loader";
+import { DataContext } from "../context/DataContext";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -17,7 +18,8 @@ export default function Home() {
 
   const db = getFirestore(app);
 
-  const { isFolderLoading, folderList, fetchFolderList } = useFolderList();
+  const { isFolderLoading, fetchFolderList, createFolderHandler, folderList } =
+    useFolderList();
   const { isFileLoading, fileList } = useFileList();
 
   useEffect(() => {

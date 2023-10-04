@@ -12,17 +12,17 @@ import {
 import { ShowToastContext } from "../context/ShowToastContext";
 import { app } from "../config/firebaseConfig";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
+import { DataContext } from "../context/DataContext";
 
 const useFolderList = () => {
   const { data: session } = useSession();
   const [isFolderLoading, setLoading] = useState(false);
-  const [folderList, setFolderList] = useState([]);
+
   const userSession = session?.user;
 
   const { setToastMessage } = useContext(ShowToastContext);
+  const { folderList, setFolderList } = useContext(DataContext);
   const db = getFirestore(app);
-  const router = useRouter;
 
   const createFolderHandler = async (folderData, setFolderName) => {
     setLoading(true);
@@ -32,14 +32,13 @@ const useFolderList = () => {
           message: "Folder successfully created!",
           status: "success",
         });
+        setFolderList((prevFolderList) => [...prevFolderList, folderData]);
       })
       .catch(() => {
         setToastMessage({
           message: "Folder creation failed",
           status: "error",
         });
-
-        setFolderList((prevFolderList) => [...prevFolderList, folderData]);
       })
       .finally(() => {
         setLoading(false);
@@ -71,14 +70,22 @@ const useFolderList = () => {
     }
   };
   const onDeleteFolder = async (id) => {
-    // const deleteItem = fileList.filter((o) => o.id !== file.id);
-    // console.log({ deleteItem });
-    await deleteDoc(doc(db, "Folders", id.toString())).then((resp) => {
-      setToastMessage({
-        message: "Folder Successfully Deleted",
-        status: "success",
+    await deleteDoc(doc(db, "Folders", id.toString()))
+      .then(() => {
+        setToastMessage({
+          message: "Folder Successfully Deleted",
+          status: "success",
+        });
+        setFolderList((prevFolderList) =>
+          prevFolderList.filter((item) => item.id !== id)
+        );
+      })
+      .catch(() => {
+        setToastMessage({
+          message: "Folder could not be deleted",
+          status: "error",
+        });
       });
-    });
   };
   useEffect(() => {
     if (userSession) {
