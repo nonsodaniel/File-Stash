@@ -2,8 +2,6 @@ import { useSession } from "next-auth/react";
 import { useContext, useEffect } from "react";
 import SearchBar from "../../components/SearchBar";
 import { RootFolderContext } from "../../context/RootFolderContext";
-import { getFirestore } from "firebase/firestore";
-import { app } from "../../config/firebaseConfig";
 import FolderHeader from "../../components/Folder/FolderHeader";
 import Loader from "../../components/Loader";
 import FolderList from "../../components/Folder/FolderList";
@@ -13,7 +11,6 @@ export default function Home() {
   const { data: session } = useSession();
   const { setRootFolderId } = useContext(RootFolderContext);
 
-  const db = getFirestore(app);
   const { isFolderLoading, folderList } = useFolderList();
 
   useEffect(() => {
