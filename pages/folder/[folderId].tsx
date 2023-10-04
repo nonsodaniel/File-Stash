@@ -5,12 +5,12 @@ import FolderList from "../../components/Folder/FolderList";
 import { RootFolderContext } from "../../context/RootFolderContext";
 import FileList from "../../components/FileList/FileList";
 import useFolderList from "../../hooks/useFolderList";
-import TopHeader from "../../components/TopHeader";
-import EmptyState from "../../components/EmptyState";
-import HorizontalLine from "../../components/HorizontalLine";
-import Loader from "../../components/Loader";
+import TopHeader from "../../components/ui/TopHeader";
 import useFileList from "../../hooks/useFileList";
 import AppLayout from "../../components/layout/AppLayout";
+import EmptyState from "../../components/ui/EmptyState";
+import HorizontalLine from "../../components/ui/HorizontalLine";
+import Loader from "../../components/ui/Loader";
 
 function FolderDetails() {
   const router = useRouter();

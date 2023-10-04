@@ -1,10 +1,10 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import CreateFolderModal from "./CreateFolderModal";
-import UploadFileModal from "./FileList/UploadFileModal";
 import Link from "next/link";
 import { AiOutlineFolderAdd, AiOutlineFileAdd } from "react-icons/ai";
-import { useMenuList } from "../hooks/useMenuList";
+import { useMenuList } from "../../hooks/useMenuList";
+import UploadFileModal from "../FileList/UploadFileModal";
 
 const SideNavBar = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);

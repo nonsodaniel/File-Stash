@@ -1,6 +1,6 @@
 import React from "react";
-import SideNavBar from "../SideNavBar";
 import Storage from "../Storage/Storage";
+import SideNavBar from "../ui/SideNavBar";
 
 const AppLayout = ({ children }) => {
   return (

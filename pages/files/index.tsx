@@ -1,14 +1,12 @@
 import { useSession } from "next-auth/react";
 import { useContext, useEffect } from "react";
-import SearchBar from "../../components/SearchBar";
 import { RootFolderContext } from "../../context/RootFolderContext";
 import useFileList from "../../hooks/useFileList";
-import FolderHeader from "../../components/Folder/FolderHeader";
-import Loader from "../../components/Loader";
 import FileList from "../../components/FileList/FileList";
-import TopHeader from "../../components/TopHeader";
-import EmptyState from "../../components/EmptyState";
+import TopHeader from "../../components/ui/TopHeader";
 import AppLayout from "../../components/layout/AppLayout";
+import Loader from "../../components/ui/Loader";
+import EmptyState from "../../components/ui/EmptyState";
 
 export default function Home() {
   const { data: session } = useSession();

@@ -6,11 +6,11 @@ import { RootFolderContext } from "../context/RootFolderContext";
 import useFolderList from "../hooks/useFolderList";
 import useFileList from "../hooks/useFileList";
 import FolderHeader from "../components/Folder/FolderHeader";
-import Loader from "../components/Loader";
 import FileHeader from "../components/FileList/FileHeader";
-import TopHeader from "../components/TopHeader";
-import EmptyState from "../components/EmptyState";
+import TopHeader from "../components/ui/TopHeader";
 import AppLayout from "../components/layout/AppLayout";
+import Loader from "../components/ui/Loader";
+import EmptyState from "../components/ui/EmptyState";
 
 export default function Home() {
   const { data: session } = useSession();

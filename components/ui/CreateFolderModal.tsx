@@ -2,8 +2,8 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { useContext, useState } from "react";
 import { serverTimestamp } from "firebase/firestore";
-import { RootFolderContext } from "../context/RootFolderContext";
-import useFolderList from "../hooks/useFolderList";
+import { RootFolderContext } from "../../context/RootFolderContext";
+import useFolderList from "../../hooks/useFolderList";
 
 const CreateFolderModal = () => {
   const [folderName, setFolderName] = useState<string>("");
