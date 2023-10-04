@@ -22,7 +22,7 @@ const FileItem = ({ file }) => {
     >
       <div className="flex gap-2 items-center">
         <Image
-          src={image.replace("jpeg", "jpg")}
+          src={image.replace(/jpeg|jpg/i, "jpg")}
           alt="file-icon"
           width={26}
           height={20}

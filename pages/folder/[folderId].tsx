@@ -25,8 +25,7 @@ function FolderDetails() {
     folderList,
     isFolderLoading,
   } = useFolderList();
-  const { fileList, fetchFileById, isFileLoading, fileByIdList } =
-    useFileList();
+  const { fetchFileById, isFileLoading, fileByIdList } = useFileList();
   useEffect(() => {
     setRootFolderId(id);
     if (session?.user && folderList.length) {
