@@ -1,20 +1,15 @@
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import React, { useContext, useRef, useState } from "react";
-import { app } from "../config/firebaseConfig";
-import { doc, getFirestore, serverTimestamp, setDoc } from "firebase/firestore";
-import { ShowToastContext } from "../context/ShowToastContext";
+import React, { useContext, useState } from "react";
+import { serverTimestamp } from "firebase/firestore";
 import { RootFolderContext } from "../context/RootFolderContext";
 import useFolderList from "../hooks/useFolderList";
 
 const CreateFolderModal = () => {
   const [folderName, setFolderName] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(false);
-  const { toastMessage, setToastMessage } = useContext(ShowToastContext);
   const { data: session } = useSession();
-  const db = getFirestore(app);
   const docId = Date.now().toString();
-  const { rootFolderId, setRootFolderId } = useContext(RootFolderContext);
+  const { rootFolderId } = useContext(RootFolderContext);
   const { createFolderHandler } = useFolderList();
 
   const createFolder = async () => {
@@ -25,7 +20,9 @@ const CreateFolderModal = () => {
       createdAt: serverTimestamp(),
       rootFolderId,
     };
-    createFolderHandler(folderData, setFolderName);
+    createFolderHandler(folderData, setFolderName).then(() =>
+      setFolderName("")
+    );
   };
 
   return (

@@ -13,7 +13,6 @@ function FileList({ fileList, showHeader }: IFileListProps) {
       {showHeader && <FileHeader showHeader />}
       {fileList.map((item, index) => (
         <div key={index}>
-          {" "}
           <FileItem file={item} key={index} />
         </div>
       ))}

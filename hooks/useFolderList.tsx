@@ -108,8 +108,6 @@ const useFolderList = () => {
     }
   }, [userSession]);
 
-  console.log("asa", { folderList, folderId, folderByIdList });
-
   return {
     isFolderLoading,
     folderList,

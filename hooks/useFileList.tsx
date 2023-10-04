@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import {
   query,
   where,
@@ -21,11 +21,11 @@ const useFileList = () => {
   const db = getFirestore(app);
   const [isFileLoading, setLoading] = useState(false);
   const userSession = session?.user;
-  const docId = Date.now();
   const storage = getStorage(app);
   const { setToastMessage } = useContext(ShowToastContext);
   const { rootFolderId } = useContext(RootFolderContext);
   const { fileList, setFileList } = useContext(DataContext);
+  const [fileByIdList, setFileByIdList] = useState([]);
 
   const handleUploadFile = (file, closeModal) => {
     if (file) {
@@ -42,6 +42,7 @@ const useFileList = () => {
   };
 
   const createFile = (file, closeModal) => {
+    const docId = Date.now();
     const fileData = {
       name: file.name,
       type: file.name.split(".")[1],
@@ -82,29 +83,9 @@ const useFileList = () => {
         closeModal(true);
       });
   };
-  const onDeleteFile = async (file) => {
-    // const deleteItem = fileList.filter((o) => o.id !== file.id);
-    // console.log({ deleteItem });
-    await deleteDoc(doc(db, "files", file.id.toString()))
-      .then(() => {
-        setToastMessage({
-          message: "File Successfully Deleted",
-          status: "success",
-        });
-        setFileList((prevFileList) =>
-          prevFileList.filter((item) => item.id !== file.id)
-        );
-      })
-      .catch(() => {
-        setToastMessage({
-          message: "File could not be deleted",
-          status: "error",
-        });
-      });
-  };
+
   const fetchAllFileList = async () => {
     setLoading(true);
-    setFileList([]); // Clear existing folder list
 
     try {
       const q = query(
@@ -128,18 +109,48 @@ const useFileList = () => {
     }
   };
 
+  const fetchFileById = (id) => {
+    if (!!fileList.length && id) {
+      const filteredData = fileList.filter(
+        (folder) => folder.rootFolderId === id
+      );
+      setFileByIdList(filteredData);
+    }
+  };
+
+  const onDeleteFile = async (file) => {
+    const deleteItem = fileList.filter((o) => o.id !== file.id);
+    console.log({ deleteItem });
+    await deleteDoc(doc(db, "files", file.id.toString()))
+      .then(() => {
+        setToastMessage({
+          message: "File Successfully Deleted",
+          status: "success",
+        });
+        setFileList(deleteItem);
+      })
+      .catch(() => {
+        setToastMessage({
+          message: "File could not be deleted",
+          status: "error",
+        });
+      });
+  };
+
   useEffect(() => {
     if (userSession) {
       fetchAllFileList();
     }
-  }, [userSession, setFileList, db, session]);
-
+  }, [userSession]);
   return {
     isFileLoading,
     fileList,
     fetchAllFileList,
     handleUploadFile,
     onDeleteFile,
+    fetchFileById,
+    fileByIdList,
+    setFileByIdList,
   };
 };
 

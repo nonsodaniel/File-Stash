@@ -39,6 +39,7 @@ export default function Home() {
           <EmptyState message="Folder" />
         )}
       </div>
+
       <div className="bg-white mt-5 p-5 rounded-lg">
         <FileHeader showHeader={true} />
 

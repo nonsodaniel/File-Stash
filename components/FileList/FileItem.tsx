@@ -1,21 +1,16 @@
-import React, { useContext, useEffect } from "react";
-import moment from "moment/moment";
+import React from "react";
 import Image from "next/image";
 import useFileList from "../../hooks/useFileList";
-import useFolderList from "../../hooks/useFolderList";
 import { formatSize } from "../../utils/helpers";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { getStorage, ref } from "firebase/storage";
-import { app } from "../../config/firebaseConfig";
 import { HiOutlineEye } from "react-icons/hi";
 
 const FileItem = ({ file }) => {
   const image = "/" + file.type + ".png";
-  // const { onDeleteFile } = useFileList();
+  const { onDeleteFile } = useFileList();
 
   const deleteFile = () => {
-    // onDeleteFile(file);
-    // console.log({ fileList });
+    onDeleteFile(file);
   };
 
   return (

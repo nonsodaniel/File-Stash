@@ -1,34 +1,22 @@
 import { useRouter } from "next/router";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import FolderList from "../../components/Folder/FolderList";
 import { RootFolderContext } from "../../context/RootFolderContext";
-import {
-  collection,
-  getDocs,
-  getFirestore,
-  query,
-  where,
-} from "firebase/firestore";
-import { app } from "../../config/firebaseConfig";
-import { ShowToastContext } from "../../context/ShowToastContext";
 import FileList from "../../components/FileList/FileList";
 import useFolderList from "../../hooks/useFolderList";
 import TopHeader from "../../components/TopHeader";
 import EmptyState from "../../components/EmptyState";
 import HorizontalLine from "../../components/HorizontalLine";
 import Loader from "../../components/Loader";
-import { findAncestor } from "typescript";
+import useFileList from "../../hooks/useFileList";
 
 function FolderDetails() {
   const router = useRouter();
   const { name, id } = router.query;
   const { data: session } = useSession();
 
-  const [fileList, setFileList] = useState([]);
-  const [isFileLoading, setFileLoading] = useState(false);
   const { setRootFolderId } = useContext(RootFolderContext);
-  const { toastMessage, setToastMessage } = useContext(ShowToastContext);
   const {
     onDeleteFolder,
     fetchFolderById,
@@ -36,49 +24,24 @@ function FolderDetails() {
     folderList,
     isFolderLoading,
   } = useFolderList();
-
-  const db = getFirestore(app);
-
-  const getFileList = async () => {
-    setFileLoading(true);
-    try {
-      setFileList([]);
-      const q = query(
-        collection(db, "files"),
-        where("rootFolderId", "==", id),
-        where("createdBy", "==", session.user.email)
-      );
-
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        setFileList((fileList) => [...fileList, doc.data()]);
-      });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setFileLoading(false);
-    }
-  };
-
+  const { fileList, fetchFileById, isFileLoading } = useFileList();
   useEffect(() => {
-    console.log("called");
     setRootFolderId(id);
     if (session?.user && folderList.length) {
       fetchFolderById(id);
-      getFileList();
+      fetchFileById(id);
     }
   }, [id, session, folderList]);
 
-  const handleDelete = () => {
-    onDeleteFolder(id).then((res) => router.push("/folders"));
+  const handleDeleteFolders = () => {
+    onDeleteFolder(id).then(() => router.push("/folders"));
   };
-  console.log("folderByIdList", { folderByIdList });
   return (
     <div className="p-5">
       <TopHeader showBackBtn />
       <h2 className="text-[20px] font-bold mt-5">
         {name}
-        <span onClick={handleDelete}>
+        <span onClick={handleDeleteFolders}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
