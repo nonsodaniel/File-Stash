@@ -25,7 +25,8 @@ function FolderDetails() {
     folderList,
     isFolderLoading,
   } = useFolderList();
-  const { fileList, fetchFileById, isFileLoading } = useFileList();
+  const { fileList, fetchFileById, isFileLoading, fileByIdList } =
+    useFileList();
   useEffect(() => {
     setRootFolderId(id);
     if (session?.user && folderList.length) {
@@ -78,8 +79,8 @@ function FolderDetails() {
         >
           {isFileLoading ? (
             <Loader /> // Show loading state while data is being fetched
-          ) : folderList.length > 0 ? (
-            <FileList fileList={fileList} showHeader />
+          ) : fileByIdList.length > 0 ? (
+            <FileList fileList={fileByIdList} showHeader />
           ) : (
             <EmptyState message="File" /> // Show empty state when no data is available
           )}
