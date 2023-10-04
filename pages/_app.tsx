@@ -14,6 +14,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const [toastMessage, setToastMessage] = useState(null);
   const [rootFolderId, setRootFolderId] = useState();
   const [folderList, setFolderList] = useState([]);
+
   const [fileList, setFileList] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
 

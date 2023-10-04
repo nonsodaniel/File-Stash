@@ -13,10 +13,15 @@ import { ShowToastContext } from "../context/ShowToastContext";
 import { app } from "../config/firebaseConfig";
 import { useSession } from "next-auth/react";
 import { DataContext } from "../context/DataContext";
+import { useRouter } from "next/router";
 
 const useFolderList = () => {
   const { data: session } = useSession();
+  const router = useRouter();
+  const { name, id: folderId } = router.query;
+
   const [isFolderLoading, setLoading] = useState(false);
+  const [folderByIdList, setFolderByIdList] = useState([]);
 
   const userSession = session?.user;
 
@@ -69,6 +74,16 @@ const useFolderList = () => {
       setLoading(false);
     }
   };
+  const fetchFolderById = (id) => {
+    if (!!folderList.length && id) {
+      console.log("called");
+      const filteredData = folderList.filter(
+        (folder) => folder.rootFolderId === id
+      );
+      setFolderByIdList(filteredData);
+      console.log({ filteredData });
+    }
+  };
   const onDeleteFolder = async (id) => {
     await deleteDoc(doc(db, "Folders", id.toString()))
       .then(() => {
@@ -93,12 +108,16 @@ const useFolderList = () => {
     }
   }, [userSession]);
 
+  console.log("asa", { folderList, folderId, folderByIdList });
+
   return {
     isFolderLoading,
     folderList,
     fetchFolderList,
     createFolderHandler,
     onDeleteFolder,
+    fetchFolderById,
+    folderByIdList,
   };
 };
 

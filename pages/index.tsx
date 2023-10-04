@@ -9,6 +9,7 @@ import FolderHeader from "../components/Folder/FolderHeader";
 import Loader from "../components/Loader";
 import FileHeader from "../components/FileList/FileHeader";
 import TopHeader from "../components/TopHeader";
+import EmptyState from "../components/EmptyState";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -32,25 +33,23 @@ export default function Home() {
 
         {isFolderLoading ? (
           <Loader />
-        ) : folderList.length ? (
+        ) : folderList.length > 0 ? (
           <FolderList folderList={folderList} />
         ) : (
-          <div className="">Folder Is empty</div>
+          <EmptyState message="Folder" />
         )}
       </div>
-
       <div className="bg-white mt-5 p-5 rounded-lg">
         <FileHeader showHeader={true} />
+
         {isFileLoading ? (
           <Loader />
-        ) : fileList.length ? (
+        ) : folderList.length > 0 ? (
           <FileList fileList={fileList} />
         ) : (
-          <div className="">File Is empty</div>
+          <EmptyState message="File" />
         )}
       </div>
-
-      {/* <FileList fileList={fileList} isFileLoading={isFileLoading} /> */}
     </div>
   );
 }

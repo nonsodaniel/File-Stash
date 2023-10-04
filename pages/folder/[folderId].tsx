@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
-import SearchBar from "../../components/SearchBar";
 import { useSession } from "next-auth/react";
 import FolderList from "../../components/Folder/FolderList";
 import { RootFolderContext } from "../../context/RootFolderContext";
@@ -18,59 +17,62 @@ import useFolderList from "../../hooks/useFolderList";
 import TopHeader from "../../components/TopHeader";
 import EmptyState from "../../components/EmptyState";
 import HorizontalLine from "../../components/HorizontalLine";
+import Loader from "../../components/Loader";
+import { findAncestor } from "typescript";
 
 function FolderDetails() {
   const router = useRouter();
   const { name, id } = router.query;
   const { data: session } = useSession();
 
-  const [folderList, setFolderList] = useState([]);
   const [fileList, setFileList] = useState([]);
+  const [isFileLoading, setFileLoading] = useState(false);
   const { setRootFolderId } = useContext(RootFolderContext);
   const { toastMessage, setToastMessage } = useContext(ShowToastContext);
-  const { onDeleteFolder } = useFolderList();
+  const {
+    onDeleteFolder,
+    fetchFolderById,
+    folderByIdList,
+    folderList,
+    isFolderLoading,
+  } = useFolderList();
 
   const db = getFirestore(app);
 
-  const getFolderList = async () => {
-    setFolderList([]);
-    const q = query(
-      collection(db, "Folders"),
-      where("createdBy", "==", session.user?.email),
-      where("rootFolderId", "==", id)
-    );
+  const getFileList = async () => {
+    setFileLoading(true);
+    try {
+      setFileList([]);
+      const q = query(
+        collection(db, "files"),
+        where("rootFolderId", "==", id),
+        where("createdBy", "==", session.user.email)
+      );
 
-    const querySnapshot = await getDocs(q);
-
-    querySnapshot.forEach((doc) => {
-      setFolderList((folderList) => [...folderList, doc.data()]);
-    });
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        setFileList((fileList) => [...fileList, doc.data()]);
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setFileLoading(false);
+    }
   };
 
   useEffect(() => {
+    console.log("called");
     setRootFolderId(id);
-    if (session?.user) {
-      getFolderList();
+    if (session?.user && folderList.length) {
+      fetchFolderById(id);
       getFileList();
     }
-  }, [id, session, toastMessage]);
+  }, [id, session, folderList]);
 
-  const getFileList = async () => {
-    setFileList([]);
-    const q = query(
-      collection(db, "files"),
-      where("rootFolderId", "==", id),
-      where("createdBy", "==", session.user.email)
-    );
-
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      setFileList((fileList) => [...fileList, doc.data()]);
-    });
-  };
   const handleDelete = () => {
     onDeleteFolder(id).then((res) => router.push("/folders"));
   };
+  console.log("folderByIdList", { folderByIdList });
   return (
     <div className="p-5">
       <TopHeader showBackBtn />
@@ -95,17 +97,22 @@ function FolderDetails() {
         </span>
       </h2>
 
-      {folderList.length > 0 ? (
-        <FolderList folderList={folderList} isBig={false} />
+      {isFolderLoading ? (
+        <Loader /> // Show loading state while data is being fetched
+      ) : folderByIdList.length > 0 ? (
+        <FolderList folderList={folderByIdList} isBig={false} /> // Show folder list when data is available
       ) : (
-        <EmptyState message="Folder" />
+        <EmptyState message="Folder" /> // Show empty state when no data is available
       )}
 
       <HorizontalLine />
-      {fileList.length > 0 ? (
+
+      {isFileLoading ? (
+        <Loader /> // Show loading state while data is being fetched
+      ) : folderList.length > 0 ? (
         <FileList fileList={fileList} />
       ) : (
-        <EmptyState message="File" />
+        <EmptyState message="File" /> // Show empty state when no data is available
       )}
     </div>
   );

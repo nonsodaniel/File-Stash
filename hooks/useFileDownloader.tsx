@@ -1,33 +1,33 @@
-// useDownloadFile.js
-import { useState, useEffect } from "react";
-import { ref, getDownloadURL, getStorage } from "firebase/storage";
-import { app } from "../config/firebaseConfig";
+import { useState } from "react";
 
-const useDownloadFile = (file) => {
-  const [downloadUrl, setDownloadUrl] = useState(null);
+const useDownloadFile = () => {
   const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const downloadFile = () => {
-    const storage = getStorage(app);
-    getDownloadURL(ref(storage, "file/" + file.name))
-      .then((url) => {
-        // `url` is the download URL for 'images/stars.jpg'
 
-        // This can be downloaded directly:
-        const xhr = new XMLHttpRequest();
-        xhr.responseType = "blob";
-        xhr.onload = (event) => {
-          const blob = xhr.response;
-        };
-        xhr.open("GET", url);
-        xhr.send();
-      })
-      .catch((error) => {
-        console.log("err", error);
-      });
+  const downloadFile = async (fileUrl) => {
+    try {
+      const response = await fetch(fileUrl);
+      if (!response.ok) {
+        throw new Error("Failed to download file");
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      // Create a temporary link element to trigger the download
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "downloaded-file"; // Set the desired file name
+      a.click();
+
+      // Clean up
+      window.URL.revokeObjectURL(url);
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
-  return { downloadUrl, isLoading, error, downloadFile };
+  return { downloadFile, error };
 };
 
 export default useDownloadFile;

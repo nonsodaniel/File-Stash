@@ -14,7 +14,7 @@ function FolderList({
   isFullScreen,
   isBig = true,
 }: IFolderListProps) {
-  const [activeFolder, setActiveFolder] = useState();
+  const [, setActiveFolder] = useState();
   const router = useRouter();
   const onFolderClick = (index, item) => {
     setActiveFolder(index);
