@@ -8,6 +8,8 @@ import { ShowLoaderContext } from "../context/showLoaderContext";
 import { DataContext } from "../context/DataContext";
 import { useRouter } from "next/router";
 import Toast from "../components/ui/Toast";
+import Footer from "../components/mobile/Footer";
+import RoundedRightButton from "../components/ui/RoundedRightButton";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const [toastMessage, setToastMessage] = useState(null);
@@ -24,22 +26,28 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     }
   }, [session]);
   return (
-    <SessionProvider session={session}>
-      <DataContext.Provider
-        value={{ folderList, setFolderList, fileList, setFileList }}
-      >
-        <ShowLoaderContext.Provider value={{ loading, setLoading }}>
-          <RootFolderContext.Provider value={{ rootFolderId, setRootFolderId }}>
-            <ShowToastContext.Provider
-              value={{ toastMessage, setToastMessage }}
+    <div className="app">
+      <SessionProvider session={session}>
+        <DataContext.Provider
+          value={{ folderList, setFolderList, fileList, setFileList }}
+        >
+          <ShowLoaderContext.Provider value={{ loading, setLoading }}>
+            <RootFolderContext.Provider
+              value={{ rootFolderId, setRootFolderId }}
             >
-              <Component {...pageProps} />
-              {toastMessage && <Toast {...toastMessage} />}
-            </ShowToastContext.Provider>
-          </RootFolderContext.Provider>
-        </ShowLoaderContext.Provider>
-      </DataContext.Provider>
-    </SessionProvider>
+              <ShowToastContext.Provider
+                value={{ toastMessage, setToastMessage }}
+              >
+                <Component {...pageProps} />
+                {toastMessage && <Toast {...toastMessage} />}
+              </ShowToastContext.Provider>
+            </RootFolderContext.Provider>
+          </ShowLoaderContext.Provider>
+        </DataContext.Provider>
+        <RoundedRightButton />
+        <Footer />
+      </SessionProvider>
+    </div>
   );
 }
 

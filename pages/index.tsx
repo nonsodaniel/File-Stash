@@ -11,6 +11,7 @@ import TopHeader from "../components/ui/TopHeader";
 import AppLayout from "../components/layout/AppLayout";
 import Loader from "../components/ui/Loader";
 import EmptyState from "../components/ui/EmptyState";
+import Footer from "../components/mobile/Footer";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -54,6 +55,7 @@ export default function Home() {
           )}
         </div>
       </div>
+      <Footer />
     </AppLayout>
   );
 }

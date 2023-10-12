@@ -9,15 +9,15 @@ import UploadFileModal from "../FileList/UploadFileModal";
 const SideNavBar = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const router = useRouter();
-  const menuList = useMenuList();
-  console.log(menuList);
+  const { menuListData } = useMenuList();
+
   const onMenuClick = (item, index) => {
     setActiveIndex(index);
     router.push("/");
   };
   return (
     <div
-      className="w-[200px]
+      className="hidden md:block w-[200px]
     bg-white h-screen sticky top-0
     z-10 shadow-blue-200 shadow-md
     p-5"
@@ -56,7 +56,7 @@ const SideNavBar = () => {
         </span>
       </button>
       <div className="mt-8">
-        {menuList.map((item, index) => (
+        {menuListData.map((item, index) => (
           <Link
             href={item.url}
             key={index}
