@@ -26,7 +26,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     }
   }, [session]);
   return (
-    <div className="app">
+    <div className="app bg-white-200" style={{ paddingBottom: "5rem" }}>
       <SessionProvider session={session}>
         <DataContext.Provider
           value={{ folderList, setFolderList, fileList, setFileList }}

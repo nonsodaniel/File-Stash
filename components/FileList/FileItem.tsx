@@ -5,7 +5,7 @@ import { formatSize } from "../../utils/helpers";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { HiOutlineEye } from "react-icons/hi";
 
-const FileItem = ({ file }) => {
+const FileItem = ({ file, index }) => {
   const image = "/" + file.type + ".png";
   const { onDeleteFile } = useFileList();
 
@@ -14,47 +14,48 @@ const FileItem = ({ file }) => {
   };
 
   return (
-    <div
-      className="grid grid-cols-1
-        md:grid-cols-2 justify-between
-         hover:bg-gray-100
-        p-3 rounded-md"
-    >
-      <div className="flex gap-2 items-center">
-        <Image
-          src={image.replace(/jpeg|jpg/i, "jpg")}
-          alt="file-icon"
-          width={26}
-          height={20}
-        />
-        <h2
-          className="text-[15px] truncate cursor-pointer"
-          onClick={() => window.open(file.imageUrl)}
-        >
-          {file.name}
-        </h2>
-      </div>
-      <div className="grid grid-cols-3 place-content-start">
-        <h2 className="text-[15px]">
+    <>
+      <tr className="bg-white border-b  dark:border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+        <td className="px-6 py-4">{index + 1}</td>
+        <th scope="row" className="px-6 py-4 font-medium  whitespace-nowrap ">
+          <div className="flex gap-2 items-center">
+            <Image
+              src={image.replace(/jpeg|jpg/i, "jpg")}
+              alt="file-icon"
+              width={26}
+              height={20}
+            />
+            <h2
+              className="text-[15px] truncate cursor-pointer"
+              onClick={() => window.open(file.imageUrl)}
+            >
+              {file.name}
+            </h2>
+          </div>
+        </th>
+        <td className="text-center py-4">{formatSize(file.size)}</td>
+        <td className="px-6 py-4">
           {new Date(file.modifiedAt).toLocaleDateString()}
-        </h2>
+        </td>
 
-        <h2 className="text-[15px]">{formatSize(file.size)}</h2>
-        <span id={file.id}>
-          <RiDeleteBin6Line
-            className=" cursor-pointer w-5 h-5 float-right text-red-500
-               hover:scale-110 transition-all"
-            onClick={deleteFile}
-          />
-
+        <td className="px-6 py-4">
           <HiOutlineEye
+            id={file.id}
             className=" cursor-pointer text-blue-500
                hover:scale-110 transition-all"
             onClick={() => window.open(file.imageUrl)}
           />
-        </span>
-      </div>
-    </div>
+        </td>
+        <td className="px-6 py-4">
+          <RiDeleteBin6Line
+            id={file.id}
+            className=" cursor-pointer w-5 h-5 float-right text-red-500
+               hover:scale-110 transition-all"
+            onClick={deleteFile}
+          />
+        </td>
+      </tr>
+    </>
   );
 };
 
