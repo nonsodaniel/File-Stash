@@ -11,14 +11,20 @@ function FileList({ fileList, showHeader }: IFileListProps) {
   return (
     <div className="bg-white mt-5 p-1 rounded-lg">
       <div className="relative overflow-x-auto  sm:rounded-lg">
-        {showHeader && <h2 className="text-[18px] font-bold">Recent Files</h2>}
+        {showHeader && (
+          <h1 className="text-[25px] font-bold text-center  mb-6">
+            Recent Files
+          </h1>
+        )}
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <FileHeader />
+          <thead className="text-xs text-gray-700 uppercase  ">
+            <FileHeader />
+          </thead>
           <tbody>
             {fileList.map((item, index) => (
-              <Fragment key={index}>
+              <tr key={index} className="bg-white border-b hover:bg-gray-200">
                 <FileItem file={item} index={index} />
-              </Fragment>
+              </tr>
             ))}
           </tbody>
         </table>

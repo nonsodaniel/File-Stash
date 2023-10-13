@@ -17,7 +17,7 @@ const SideNavBar = () => {
   };
   return (
     <div
-      className="hidden md:block w-[200px]
+      className="side-navbar w-[200px]
     bg-white h-screen sticky top-0
     z-10 shadow-blue-200 shadow-md
     p-5"

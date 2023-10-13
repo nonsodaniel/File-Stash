@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import Toast from "../components/ui/Toast";
 import Footer from "../components/mobile/Footer";
 import RoundedRightButton from "../components/ui/RoundedRightButton";
+import Logo from "../components/ui/Logo";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const [toastMessage, setToastMessage] = useState(null);
@@ -26,7 +27,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     }
   }, [session]);
   return (
-    <div className="app bg-white-200" style={{ paddingBottom: "5rem" }}>
+    <div className="app bg-white-200">
       <SessionProvider session={session}>
         <DataContext.Provider
           value={{ folderList, setFolderList, fileList, setFileList }}
@@ -38,6 +39,10 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
               <ShowToastContext.Provider
                 value={{ toastMessage, setToastMessage }}
               >
+                <div className="mobile-logo justify-center py-8">
+                  <Logo />
+                </div>
+
                 <Component {...pageProps} />
                 {toastMessage && <Toast {...toastMessage} />}
               </ShowToastContext.Provider>
@@ -45,7 +50,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
           </ShowLoaderContext.Provider>
         </DataContext.Provider>
         <RoundedRightButton />
-        <Footer />
+        <div className="mobile-footer">
+          <Footer />
+        </div>
       </SessionProvider>
     </div>
   );

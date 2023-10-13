@@ -44,7 +44,7 @@ export default function Home() {
         </div>
 
         <div className="bg-white mt-5 p-5 rounded-lg">
-          <FileHeader showHeader={true} />
+          {/* <FileHeader /> */}
 
           {isFileLoading ? (
             <Loader />
@@ -55,7 +55,9 @@ export default function Home() {
           )}
         </div>
       </div>
-      <Footer />
+      <div className="mobile-footer">
+        <Footer />
+      </div>
     </AppLayout>
   );
 }

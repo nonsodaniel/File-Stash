@@ -5,10 +5,10 @@ html,
 body {
   padding: 0;
   margin: 0;
-  background-color: aliceblue;
-  height: 100%;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  background-color: aliceblue;
+  overflow: none;
 }
 
 a {
@@ -22,4 +22,37 @@ a {
 
 .folder-section {
   background-color: aliceblue;
+}
+.side-navbar,
+.storage-section {
+  display: block;
+}
+
+.mobile-logo,
+.mobile-footer {
+  display: none;
+}
+.folder-grid {
+  height: 15rem;
+}
+
+@media only screen and (max-width: 1042px) {
+  .app {
+    padding-bottom: 4rem;
+    min-height: 100vh;
+  }
+  .side-navbar,
+  .storage-section {
+    display: none;
+  }
+  .mobile-logo,
+  .mobile-footer {
+    display: block;
+  }
+  .mobile-logo {
+    display: flex;
+  }
+  .folder-grid {
+    height: auto;
+  }
 }

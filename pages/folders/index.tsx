@@ -24,14 +24,14 @@ export default function Home() {
         <TopHeader />
         <div
           className="p-5 mt-5 
-        bg-white rounded-lg pb-11"
+        bg-white rounded-lg pb-11 h-100"
         >
           <FolderHeader type="Folders" isBig={true} />
 
           {isFolderLoading ? (
             <Loader />
           ) : folderList.length ? (
-            <FolderList isFullScreen={false} folderList={folderList} />
+            <FolderList isFullScreen folderList={folderList} />
           ) : (
             <div className="">Folder list is currrently empty</div>
           )}

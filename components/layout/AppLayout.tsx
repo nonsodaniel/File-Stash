@@ -12,7 +12,7 @@ md:grid-cols-3 w-full"
       >
         <div className="col-span-2">{children}</div>
         <div
-          className="hidden md:block bg-white p-5
+          className="storage-section bg-white p-5
 order-first md:order-last bg-white p-5 order-first md:order-last  h-screen sticky top-0 z-10"
         >
           <Storage />
