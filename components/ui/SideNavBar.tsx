@@ -65,7 +65,7 @@ const SideNavBar = () => {
               item.isSoon ? "pointer-events-none" : ""
             }
             hover:bg-blue-500 hover:text-white
-            ${activeIndex == index ? "bg-blue-500 text-white" : null}`}
+            ${router.pathname == item.url ? "bg-blue-500 text-white" : null}`}
             onClick={() => onMenuClick(item, index)}
           >
             <span style={{ fontSize: "25px" }}>{item.logo}</span>
