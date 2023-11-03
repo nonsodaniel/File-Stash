@@ -43,7 +43,7 @@ const FileItem = ({ file, index }) => {
           </h2>
         </div>
       </th>
-      <td className="text-center py-4">{formatSize(file.size)}</td>
+      <td className="px-6 py-4">{formatSize(file.size)}</td>
       <td className="px-6 py-4">
         {new Date(file.modifiedAt).toLocaleDateString()}
       </td>
