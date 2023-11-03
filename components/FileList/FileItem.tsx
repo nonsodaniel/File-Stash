@@ -30,7 +30,7 @@ const FileItem = ({ file, index }) => {
       <th scope="row" className="px-6 py-4 font-medium  whitespace-nowrap ">
         <div className="flex gap-2 items-center">
           <Image
-            src={image.replace(/jpeg|jpg/i, "jpg")}
+            src={image.replace(/jpeg|bmp|tiff|svg|webp|xml|jpg/i, "jpg")}
             alt="file-icon"
             width={26}
             height={20}
