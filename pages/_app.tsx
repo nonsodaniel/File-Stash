@@ -12,6 +12,8 @@ import Footer from "../components/mobile/Footer";
 import RoundedRightButton from "../components/ui/RoundedRightButton";
 import Logo from "../components/ui/Logo";
 import Loader from "../components/ui/Loader";
+import CreateFolderModal from "../components/ui/CreateFolderModal";
+import UploadFileModal from "../components/FileList/UploadFileModal";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const [toastMessage, setToastMessage] = useState(null);
@@ -65,6 +67,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
           </ShowLoaderContext.Provider>
         </DataContext.Provider>
         <RoundedRightButton />
+
         <div className="mobile-footer">
           <Footer />
         </div>

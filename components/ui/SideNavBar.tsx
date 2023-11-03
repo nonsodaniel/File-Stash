@@ -35,8 +35,7 @@ const SideNavBar = () => {
         className="flex gap-2 items-center text-[13px]
         bg-blue-500 bg-opacity-75 p-2 text-white rounded-md px-3
         hover:scale-105 transition-all mt-5 w-full justify-center"
-        //@ts-ignore
-        onClick={() => window.create_file_modal.showModal()}
+        onClick={() => globalThis.create_file_modal.showModal()}
       >
         Add New File
         <span>
@@ -47,8 +46,7 @@ const SideNavBar = () => {
         className="flex gap-2 items-center text-[13px]
         bg-sky-400 w-full p-2 justify-center text-white rounded-md px-3
         hover:scale-105 transition-all mt-1"
-        //@ts-ignore
-        onClick={() => window.my_modal_3.showModal()}
+        onClick={() => globalThis.my_modal_3.showModal()}
       >
         Create Folder
         <span>
@@ -73,15 +71,6 @@ const SideNavBar = () => {
           </Link>
         ))}
       </div>
-
-      <dialog id="my_modal_3" className="modal">
-        <CreateFolderModal />
-      </dialog>
-
-      <dialog id="create_file_modal" className="modal">
-        {/* @ts-ignore */}
-        <UploadFileModal closeModal={() => window.create_file_modal.close()} />
-      </dialog>
     </div>
   );
 };

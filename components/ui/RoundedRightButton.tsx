@@ -1,5 +1,7 @@
 import React from "react";
 import { AiOutlineFileAdd, AiOutlineFolderAdd } from "react-icons/ai";
+import CreateFolderModal from "./CreateFolderModal";
+import UploadFileModal from "../FileList/UploadFileModal";
 
 const RoundedRightButton = () => {
   return (
@@ -12,10 +14,7 @@ const RoundedRightButton = () => {
       >
         <span
           className="text-white"
-          onClick={() =>
-            //@ts-ignore
-            window.my_modal_3.showModal()
-          }
+          onClick={() => globalThis?.my_modal_3?.showModal()}
         >
           <AiOutlineFolderAdd style={{ fontSize: "20px" }} />
         </span>
@@ -28,10 +27,7 @@ const RoundedRightButton = () => {
       >
         <span
           className="text-white"
-          onClick={() =>
-            //@ts-ignore
-            window.create_file_modal.showModal()
-          }
+          onClick={() => globalThis?.create_file_modal?.showModal()}
         >
           <AiOutlineFileAdd style={{ fontSize: "20px" }} />
         </span>

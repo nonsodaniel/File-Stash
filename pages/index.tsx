@@ -12,6 +12,8 @@ import AppLayout from "../components/layout/AppLayout";
 import Loader from "../components/ui/Loader";
 import EmptyState from "../components/ui/EmptyState";
 import Footer from "../components/mobile/Footer";
+import CreateFolderModal from "../components/ui/CreateFolderModal";
+import UploadFileModal from "../components/FileList/UploadFileModal";
 
 export default function Home() {
   const { data: session, status } = useSession();
@@ -58,7 +60,15 @@ export default function Home() {
           )}
         </div>
       </div>
+      <dialog id="my_modal_3" className="modal">
+        <CreateFolderModal />
+      </dialog>
 
+      <dialog id="create_file_modal" className="modal">
+        <UploadFileModal
+          closeModal={() => globalThis.create_file_modal.close()}
+        />
+      </dialog>
       <div className="mobile-footer">
         <Footer />
       </div>
