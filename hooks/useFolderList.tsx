@@ -14,11 +14,11 @@ import { app } from "../config/firebaseConfig";
 import { useSession } from "next-auth/react";
 import { DataContext } from "../context/DataContext";
 import { useRouter } from "next/router";
+import { searchListByName } from "../utils/helpers";
 
 const useFolderList = () => {
   const { data: session } = useSession();
   const router = useRouter();
-  const { name, id: folderId } = router.query;
 
   const [isFolderLoading, setLoading] = useState(false);
   const [folderByIdList, setFolderByIdList] = useState([]);
@@ -26,7 +26,8 @@ const useFolderList = () => {
   const userSession = session?.user;
 
   const { setToastMessage } = useContext(ShowToastContext);
-  const { folderList, setFolderList } = useContext(DataContext);
+  const { folderList, setFolderList, searchQuery, setSearchQuery } =
+    useContext(DataContext);
   const db = getFirestore(app);
 
   const createFolderHandler = async (folderData, setFolderName) => {
@@ -106,11 +107,14 @@ const useFolderList = () => {
     if (userSession) {
       fetchFolderList();
     }
-  }, [userSession]);
+  }, []);
+
+  // Filtered file list based on the search query
+  const filteredFolderList = searchListByName(folderList, searchQuery);
 
   return {
     isFolderLoading,
-    folderList,
+    folderList: filteredFolderList,
     fetchFolderList,
     createFolderHandler,
     onDeleteFolder,

@@ -1,6 +1,10 @@
 import React from "react";
-
+import useFileList from "../../hooks/useFileList";
 const SearchBar = () => {
+  const { setSearchQuery, searchQuery } = useFileList();
+  const onSearch = ({ target }) => {
+    setSearchQuery(target.value);
+  };
   return (
     <div>
       <div
@@ -24,12 +28,12 @@ const SearchBar = () => {
         <input
           type="text"
           placeholder="Search"
-          onKeyDown={(e: any) =>
-            e.key == "Enter" && console.log(e.target.value)
-          }
+          value={searchQuery}
+          onChange={onSearch}
           className="bg-transparent
            outline-none w-full text-[14px
            text-black"
+          autoFocus
         />
       </div>
     </div>

@@ -22,6 +22,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
 
   const [fileList, setFileList] = useState([]);
   const [favoriteFileList, setFavoriteFile] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
 
@@ -47,6 +48,8 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
             setFileList,
             favoriteFileList,
             setFavoriteFile,
+            searchQuery,
+            setSearchQuery,
           }}
         >
           <ShowLoaderContext.Provider value={{ loading, setLoading }}>

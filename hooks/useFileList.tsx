@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   query,
   where,
@@ -21,6 +21,7 @@ import {
 import { ShowToastContext } from "../context/ShowToastContext";
 import { RootFolderContext } from "../context/RootFolderContext";
 import { DataContext } from "../context/DataContext";
+import { searchListByName } from "../utils/helpers";
 
 const useFileList = () => {
   const { data: session } = useSession();
@@ -30,10 +31,15 @@ const useFileList = () => {
   const storage = getStorage(app);
   const { setToastMessage } = useContext(ShowToastContext);
   const { rootFolderId } = useContext(RootFolderContext);
-  const { fileList, setFileList, favoriteFileList, setFavoriteFile } =
-    useContext(DataContext);
+  const {
+    fileList,
+    setFileList,
+    favoriteFileList,
+    setFavoriteFile,
+    searchQuery,
+    setSearchQuery,
+  } = useContext(DataContext);
   const [fileByIdList, setFileByIdList] = useState([]);
-  const [] = useState([]);
 
   const handleUploadFile = (
     file,
@@ -50,7 +56,7 @@ const useFileList = () => {
         setSelectedFile(null);
         return;
       }
-      // return;
+
       createFile(file, closeModal, setUploadProgress, setSelectedFile);
     }
   };
@@ -197,9 +203,14 @@ const useFileList = () => {
       fetchAllFileList();
     }
   }, []);
+
+  // Filtered file list based on the search query
+  const filteredFileList = searchListByName(fileList, searchQuery);
+
   return {
     isFileLoading,
-    fileList,
+    fileList: filteredFileList,
+    storageData: fileList,
     fetchAllFileList,
     handleUploadFile,
     onDeleteFile,
@@ -209,6 +220,8 @@ const useFileList = () => {
     updateFavoriteInFile,
     favoriteFileList,
     fetchAllFavoriteFiles,
+    setSearchQuery,
+    searchQuery,
   };
 };
 

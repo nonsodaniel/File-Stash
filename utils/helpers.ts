@@ -51,3 +51,20 @@ export function isFileImage(imageType: string) {
     // Add any other image formats you want to support
   ].includes(imageType);
 }
+
+export const searchListByName = (list: any[], searchQuery: string) => {
+  if (!searchQuery) {
+    return list; // Return the original list if the search query is empty
+  }
+
+  // Convert the search query to lowercase for case-insensitive search
+  const query = searchQuery.toLowerCase();
+
+  // Use filter to find items in the list that match the search query
+  const filteredList = list.filter((item) => {
+    // You can change this condition to match the properties you want to search by
+    return item.name.toLowerCase().includes(query);
+  });
+
+  return filteredList;
+};
