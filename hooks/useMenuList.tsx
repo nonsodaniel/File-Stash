@@ -61,7 +61,7 @@ const mobileMenuListData: MenuListProps[] = [
     id: 4,
     name: "Favorites",
     logo: <FcLike />,
-    url: "/favourites",
+    url: "/favorites",
     isSoon: true,
   },
   {
