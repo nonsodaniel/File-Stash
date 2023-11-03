@@ -12,7 +12,12 @@ import {
 } from "firebase/firestore";
 import { app } from "../config/firebaseConfig";
 import { useSession } from "next-auth/react";
-import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
 import { ShowToastContext } from "../context/ShowToastContext";
 import { RootFolderContext } from "../context/RootFolderContext";
 import { DataContext } from "../context/DataContext";
@@ -30,22 +35,27 @@ const useFileList = () => {
   const [fileByIdList, setFileByIdList] = useState([]);
   const [] = useState([]);
 
-  const handleUploadFile = (file, closeModal) => {
+  const handleUploadFile = (
+    file,
+    closeModal,
+    setUploadProgress,
+    setSelectedFile
+  ) => {
     if (file) {
-      if (file?.size > 1000000) {
+      if (file?.size > 1100000) {
         setToastMessage({
           message: "File is too large",
           status: "error",
         });
+        setSelectedFile(null);
         return;
       }
-
-      return;
-      createFile(file, closeModal);
+      // return;
+      createFile(file, closeModal, setUploadProgress, setSelectedFile);
     }
   };
 
-  const createFile = (file, closeModal) => {
+  const createFile = (file, closeModal, setUploadProgress, setSelectedFile) => {
     const docId = Date.now();
     const fileData = {
       name: file.name,
@@ -59,36 +69,41 @@ const useFileList = () => {
       isFavorite: false,
     };
     const fileReference = ref(storage, "file/" + file.name);
-    uploadBytes(fileReference, file)
-      .then((snapshot) => {
-        console.log("Uploaded a blob or file!", { snapshot });
-      })
-      .then(() => {
-        getDownloadURL(fileReference).then(async (downloadUrl) => {
-          fileData.imageUrl = downloadUrl;
-          await setDoc(doc(db, "Files", docId.toString()), fileData);
-        });
-      })
-      .then(() => {
-        setToastMessage({
-          message: "File Uploaded Successfully!",
-          status: "success",
-        });
-        console.log("fileData", fileData);
-        setFileList((prevFileList) => [...prevFileList, fileData]);
-      })
-      .catch(() => {
+
+    // Create the upload task
+    const uploadTask = uploadBytesResumable(fileReference, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setUploadProgress(progress);
+      },
+      (error) => {
+        console.error("Error uploading file: ", error);
         setToastMessage({
           message: "File upload failed",
           status: "error",
         });
-      })
-      .finally(() => {
-        setLoading(false);
-        closeModal(true);
-      });
-  };
+      },
+      () => {
+        getDownloadURL(fileReference).then(async (downloadUrl) => {
+          fileData.imageUrl = downloadUrl;
+          await setDoc(doc(db, "Files", docId.toString()), fileData);
+          setToastMessage({
+            message: "File Uploaded Successfully!",
+            status: "success",
+          });
+          setFileList((prevFileList) => [...prevFileList, fileData]);
+          setSelectedFile(null);
+          closeModal(true);
+        });
+      }
+    );
 
+    return uploadTask; // Return the upload task
+  };
   const fetchAllFileList = async () => {
     setLoading(true);
 
