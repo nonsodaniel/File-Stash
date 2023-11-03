@@ -9,34 +9,33 @@ import useFolderList from "../../hooks/useFolderList";
 import AppLayout from "../../components/layout/AppLayout";
 import SearchBar from "../../components/ui/SearchBar";
 import Loader from "../../components/ui/Loader";
+import useFileList from "../../hooks/useFileList";
+import TopHeader from "../../components/ui/TopHeader";
+import EmptyState from "../../components/ui/EmptyState";
+import FileList from "../../components/FileList/FileList";
 
 export default function Home() {
-  const { data: session } = useSession();
-  const { setRootFolderId } = useContext(RootFolderContext);
-
-  const db = getFirestore(app);
-  const { isFolderLoading, folderList } = useFolderList();
+  const { fetchAllFavoriteFiles, favoriteFileList, isFileLoading, fileList } =
+    useFileList();
 
   useEffect(() => {
-    setRootFolderId(0);
-  }, [session]);
+    fetchAllFavoriteFiles();
+  }, []);
 
   return (
     <AppLayout>
       <div className={"p-5 folder-section"}>
-        <SearchBar />
+        <TopHeader />
         <div
           className="p-5 mt-5 
         bg-white rounded-lg"
         >
-          <FolderHeader type="Folders" isBig={true} />
-
-          {isFolderLoading ? (
+          {isFileLoading ? (
             <Loader />
-          ) : folderList.length ? (
-            <FolderList folderList={folderList} />
+          ) : !!favoriteFileList.length ? (
+            <FileList showHeader={true} fileList={favoriteFileList} />
           ) : (
-            <div className="">Folder list is currrently empty</div>
+            <EmptyState message="File" />
           )}
         </div>
       </div>

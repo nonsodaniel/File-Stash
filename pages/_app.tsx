@@ -11,6 +11,7 @@ import Toast from "../components/ui/Toast";
 import Footer from "../components/mobile/Footer";
 import RoundedRightButton from "../components/ui/RoundedRightButton";
 import Logo from "../components/ui/Logo";
+import Loader from "../components/ui/Loader";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const [toastMessage, setToastMessage] = useState(null);
@@ -18,6 +19,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const [folderList, setFolderList] = useState([]);
 
   const [fileList, setFileList] = useState([]);
+  const [favoriteFileList, setFavoriteFile] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
 
@@ -25,12 +27,25 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     if (!session) {
       router.push("/login");
     }
-  }, [session]);
+  }, []);
+  // console.log("session", session);
+
+  // if (session === undefined) return <Loader />;
+
+  // if(!session){}
+
   return (
     <div className="app bg-white-200">
       <SessionProvider session={session}>
         <DataContext.Provider
-          value={{ folderList, setFolderList, fileList, setFileList }}
+          value={{
+            folderList,
+            setFolderList,
+            fileList,
+            setFileList,
+            favoriteFileList,
+            setFavoriteFile,
+          }}
         >
           <ShowLoaderContext.Provider value={{ loading, setLoading }}>
             <RootFolderContext.Provider

@@ -70,17 +70,6 @@ const SideNavBar = () => {
           >
             <span style={{ fontSize: "25px" }}>{item.logo}</span>
             {item.name}{" "}
-            {item.isSoon && (
-              <span
-                className="text-xs ml-[-4px]
-          rounded-md
-          p-1 bg-yellow-200 text-yellow-600 "
-                style={{ fontSize: "10px" }}
-              >
-                {" "}
-                Upcoming
-              </span>
-            )}
           </Link>
         ))}
       </div>

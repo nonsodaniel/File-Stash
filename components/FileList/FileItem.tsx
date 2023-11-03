@@ -1,17 +1,28 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import Image from "next/image";
 import useFileList from "../../hooks/useFileList";
 import { formatSize } from "../../utils/helpers";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { HiOutlineEye } from "react-icons/hi";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
 const FileItem = ({ file, index }) => {
+  const [isFileInFavorites, setIsFileInFavorites] = useState(file.isFavorite);
   const image = "/" + file.type + ".png";
-  const { onDeleteFile } = useFileList();
+  const { onDeleteFile, updateFavoriteInFile } = useFileList();
 
   const deleteFile = () => {
     onDeleteFile(file);
   };
+  const handleFileFavorite = () => {
+    setIsFileInFavorites((prevState) => {
+      const updatedValue = !prevState;
+      updateFavoriteInFile(file, updatedValue);
+      return updatedValue;
+    });
+  };
+
+  const Icon = isFileInFavorites ? AiFillHeart : AiOutlineHeart;
 
   return (
     <Fragment>
@@ -35,6 +46,13 @@ const FileItem = ({ file, index }) => {
       <td className="text-center py-4">{formatSize(file.size)}</td>
       <td className="px-6 py-4">
         {new Date(file.modifiedAt).toLocaleDateString()}
+      </td>
+      <td className="px-6 py-4">
+        <Icon
+          className=" cursor-pointer w-5 h-5 float-right text-red-500
+             hover:scale-110 transition-all"
+          onClick={handleFileFavorite}
+        />
       </td>
 
       <td className="px-6 py-4">

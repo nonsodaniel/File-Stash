@@ -16,6 +16,9 @@ const FileHeader = ({}) => {
         <th scope="col" className="px-6 py-3">
           Modified
         </th>
+        <th scope="col" className="px-6 py-3"></th>
+        <th scope="col" className="px-6 py-3"></th>
+        <th scope="col" className="px-6 py-3"></th>
       </tr>
     </Fragment>
   );

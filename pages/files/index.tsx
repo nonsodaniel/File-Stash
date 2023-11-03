@@ -9,14 +9,13 @@ import Loader from "../../components/ui/Loader";
 import EmptyState from "../../components/ui/EmptyState";
 
 export default function Home() {
-  const { data: session } = useSession();
   const { setRootFolderId } = useContext(RootFolderContext);
 
   const { isFileLoading, fileList } = useFileList();
 
   useEffect(() => {
     setRootFolderId(0);
-  }, [session]);
+  }, []);
 
   return (
     <AppLayout>
@@ -28,7 +27,7 @@ export default function Home() {
         >
           {isFileLoading ? (
             <Loader />
-          ) : fileList.length ? (
+          ) : !!fileList.length ? (
             <FileList showHeader={true} fileList={fileList} />
           ) : (
             <EmptyState message="File" />

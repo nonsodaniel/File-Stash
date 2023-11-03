@@ -8,6 +8,7 @@ import {
   setDoc,
   doc,
   deleteDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { app } from "../config/firebaseConfig";
 import { useSession } from "next-auth/react";
@@ -24,8 +25,10 @@ const useFileList = () => {
   const storage = getStorage(app);
   const { setToastMessage } = useContext(ShowToastContext);
   const { rootFolderId } = useContext(RootFolderContext);
-  const { fileList, setFileList } = useContext(DataContext);
+  const { fileList, setFileList, favoriteFileList, setFavoriteFile } =
+    useContext(DataContext);
   const [fileByIdList, setFileByIdList] = useState([]);
+  const [] = useState([]);
 
   const handleUploadFile = (file, closeModal) => {
     if (file) {
@@ -37,6 +40,7 @@ const useFileList = () => {
         return;
       }
 
+      return;
       createFile(file, closeModal);
     }
   };
@@ -52,6 +56,7 @@ const useFileList = () => {
       imageUrl: "",
       rootFolderId,
       id: docId,
+      isFavorite: false,
     };
     const fileReference = ref(storage, "file/" + file.name);
     uploadBytes(fileReference, file)
@@ -61,7 +66,7 @@ const useFileList = () => {
       .then(() => {
         getDownloadURL(fileReference).then(async (downloadUrl) => {
           fileData.imageUrl = downloadUrl;
-          await setDoc(doc(db, "files", docId.toString()), fileData);
+          await setDoc(doc(db, "Files", docId.toString()), fileData);
         });
       })
       .then(() => {
@@ -89,7 +94,7 @@ const useFileList = () => {
 
     try {
       const q = query(
-        collection(db, "files"),
+        collection(db, "Files"),
 
         where("createdBy", "==", session.user.email)
       );
@@ -109,6 +114,16 @@ const useFileList = () => {
     }
   };
 
+  const fetchAllFavoriteFiles = async () => {
+    setLoading(true);
+    if (!!fileList.length) {
+      const filteredData = fileList.filter((favFile) => favFile.isFavorite);
+      console.log("calls", fileList, filteredData);
+      setFavoriteFile(filteredData);
+    }
+    setLoading(false);
+  };
+
   const fetchFileById = (id) => {
     if (!!fileList.length && id) {
       const filteredData = fileList.filter(
@@ -118,10 +133,35 @@ const useFileList = () => {
     }
   };
 
+  const updateFavoriteInFile = async (file, isFavorite) => {
+    setLoading(true);
+    const fileData = {
+      ...file,
+      isFavorite,
+    };
+    console.log("fileData", { fileData, file, isFavorite });
+    const documentRef = doc(db, "Files", file.id.toString());
+
+    // Update the document with the new data
+    updateDoc(documentRef, fileData)
+      .then(() => {
+        const filteredData = fileList.filter((favFile) => favFile.isFavorite);
+        setFavoriteFile(filteredData);
+        console.log("Document successfully updated!", {
+          filteredData,
+          fileList,
+        });
+        return filteredData;
+      })
+      .catch((error) => {
+        console.error("Error updating document: ", error);
+      })
+      .finally(() => setLoading(false));
+  };
+
   const onDeleteFile = async (file) => {
     const deleteItem = fileList.filter((o) => o.id !== file.id);
-    console.log({ deleteItem });
-    await deleteDoc(doc(db, "files", file.id.toString()))
+    await deleteDoc(doc(db, "Files", file.id.toString()))
       .then(() => {
         setToastMessage({
           message: "File Successfully Deleted",
@@ -141,7 +181,7 @@ const useFileList = () => {
     if (userSession) {
       fetchAllFileList();
     }
-  }, [userSession]);
+  }, []);
   return {
     isFileLoading,
     fileList,
@@ -151,6 +191,9 @@ const useFileList = () => {
     fetchFileById,
     fileByIdList,
     setFileByIdList,
+    updateFavoriteInFile,
+    favoriteFileList,
+    fetchAllFavoriteFiles,
   };
 };
 

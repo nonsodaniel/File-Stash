@@ -17,12 +17,12 @@ function FileList({ fileList, showHeader }: IFileListProps) {
           </h1>
         )}
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase  ">
+          <thead className="text-xs text-gray-700 uppercase  border-bottom-gray-300">
             <FileHeader />
           </thead>
           <tbody>
             {fileList.map((item, index) => (
-              <tr key={index} className="bg-white border-b hover:bg-gray-200">
+              <tr key={item.id} className="bg-white border-b hover:bg-gray-200">
                 <FileItem file={item} index={index} />
               </tr>
             ))}

@@ -35,8 +35,7 @@ const menuListData: MenuListProps[] = [
     id: 4,
     name: "Favorites",
     logo: <FcLike style={{ color: "red" }} />,
-    url: "/favourites",
-    isSoon: true,
+    url: "/favorites",
   },
 ];
 const mobileMenuListData: MenuListProps[] = [
