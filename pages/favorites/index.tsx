@@ -21,7 +21,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchAllFavoriteFiles();
-  }, []);
+  }, [fileList]);
 
   return (
     <AppLayout>
