@@ -7,6 +7,7 @@ import TopHeader from "../../components/ui/TopHeader";
 import AppLayout from "../../components/layout/AppLayout";
 import Loader from "../../components/ui/Loader";
 import EmptyState from "../../components/ui/EmptyState";
+import FolderFileDialog from "../../components/ui/FolderFileDialog";
 
 export default function Home() {
   const { setRootFolderId } = useContext(RootFolderContext);
@@ -33,6 +34,7 @@ export default function Home() {
             <EmptyState message="File" />
           )}
         </div>
+        <FolderFileDialog />
       </div>
     </AppLayout>
   );

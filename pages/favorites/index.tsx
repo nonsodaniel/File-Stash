@@ -13,6 +13,7 @@ import useFileList from "../../hooks/useFileList";
 import TopHeader from "../../components/ui/TopHeader";
 import EmptyState from "../../components/ui/EmptyState";
 import FileList from "../../components/FileList/FileList";
+import FolderFileDialog from "../../components/ui/FolderFileDialog";
 
 export default function Home() {
   const { fetchAllFavoriteFiles, favoriteFileList, isFileLoading, fileList } =
@@ -38,6 +39,7 @@ export default function Home() {
             <EmptyState message="File" />
           )}
         </div>
+        <FolderFileDialog />
       </div>
     </AppLayout>
   );

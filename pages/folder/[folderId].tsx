@@ -11,6 +11,7 @@ import AppLayout from "../../components/layout/AppLayout";
 import EmptyState from "../../components/ui/EmptyState";
 import HorizontalLine from "../../components/ui/HorizontalLine";
 import Loader from "../../components/ui/Loader";
+import FolderFileDialog from "../../components/ui/FolderFileDialog";
 
 function FolderDetails() {
   const router = useRouter();
@@ -84,6 +85,7 @@ function FolderDetails() {
             <EmptyState message="File" /> // Show empty state when no data is available
           )}
         </div>
+        <FolderFileDialog />
       </div>
     </AppLayout>
   );

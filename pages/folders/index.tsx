@@ -7,6 +7,9 @@ import useFolderList from "../../hooks/useFolderList";
 import TopHeader from "../../components/ui/TopHeader";
 import AppLayout from "../../components/layout/AppLayout";
 import Loader from "../../components/ui/Loader";
+import CreateFolderModal from "../../components/ui/CreateFolderModal";
+import UploadFileModal from "../../components/FileList/UploadFileModal";
+import FolderFileDialog from "../../components/ui/FolderFileDialog";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -36,6 +39,7 @@ export default function Home() {
             <div className="">Folder list is currrently empty</div>
           )}
         </div>
+        <FolderFileDialog />
       </div>
     </AppLayout>
   );
