@@ -36,7 +36,7 @@ export default function Home() {
           className="p-5 mt-5 
         bg-white rounded-lg"
         >
-          <FolderHeader isBig={true} />
+          <FolderHeader isBig={true} type="Folder" />
           {isFolderLoading && <Loader />}
 
           {!isFolderLoading && !!folderList.length && (
@@ -53,7 +53,7 @@ export default function Home() {
           {isFileLoading && <Loader />}
 
           {!isFileLoading && !!fileList.length && (
-            <FileList fileList={fileList} />
+            <FileList fileList={fileList} showHeader header="All Files" />
           )}
           {!isFileLoading && !fileList.length && (
             <EmptyState message="Folder" />

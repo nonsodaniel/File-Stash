@@ -34,7 +34,11 @@ export default function Home() {
           {isFileLoading ? (
             <Loader />
           ) : !!favoriteFileList.length ? (
-            <FileList showHeader={true} fileList={favoriteFileList} />
+            <FileList
+              showHeader={true}
+              fileList={favoriteFileList}
+              header="Favorite Files"
+            />
           ) : (
             <EmptyState message="File" />
           )}

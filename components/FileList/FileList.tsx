@@ -5,16 +5,15 @@ import FileHeader from "./FileHeader";
 interface IFileListProps {
   fileList: any[];
   showHeader?: boolean;
+  header?: string;
 }
 
-function FileList({ fileList, showHeader }: IFileListProps) {
+function FileList({ fileList, showHeader, header }: IFileListProps) {
   return (
     <div className="bg-white mt-5 p-1 rounded-lg">
       <div className="relative overflow-x-auto  sm:rounded-lg">
         {showHeader && (
-          <h1 className="text-[25px] font-bold text-center  mb-6">
-            Recent Files
-          </h1>
+          <h1 className="text-[25px] font-bold text-center  mb-6">{header}</h1>
         )}
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase  border-bottom-gray-300">

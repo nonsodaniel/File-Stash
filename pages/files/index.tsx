@@ -29,7 +29,11 @@ export default function Home() {
           {isFileLoading ? (
             <Loader />
           ) : !!fileList.length ? (
-            <FileList showHeader={true} fileList={fileList} />
+            <FileList
+              showHeader={true}
+              fileList={fileList}
+              header="Recent Files"
+            />
           ) : (
             <EmptyState message="File" />
           )}
