@@ -8,7 +8,7 @@ import EmptyState from "../../components/ui/EmptyState";
 import FileList from "../../components/FileList/FileList";
 import FolderFileDialog from "../../components/ui/FolderFileDialog";
 
-export default function Home() {
+export default function Favorites() {
   const { setRootFolderId } = useContext(RootFolderContext);
   const { isFileLoading, favoriteFileList } = useFileList();
 
@@ -29,12 +29,12 @@ export default function Home() {
             <Loader />
           ) : !!favoriteFileList.length ? (
             <FileList
-              showHeader={true}
+              showHeader
               fileList={favoriteFileList}
               header="Favorite Files"
             />
           ) : (
-            <EmptyState message="File" />
+            <EmptyState message="Favorite" />
           )}
         </div>
         <FolderFileDialog />

@@ -77,12 +77,10 @@ const useFolderList = () => {
   };
   const fetchFolderById = (id) => {
     if (!!folderList.length && id) {
-      console.log("called");
       const filteredData = folderList.filter(
         (folder) => folder.rootFolderId === id
       );
       setFolderByIdList(filteredData);
-      console.log({ filteredData });
     }
   };
   const onDeleteFolder = async (id) => {

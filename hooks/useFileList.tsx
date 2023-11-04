@@ -150,7 +150,6 @@ const useFileList = () => {
       ...file,
       isFavorite,
     };
-    console.log("fileData", { fileData, file, isFavorite });
     const documentRef = doc(db, "Files", file.id.toString());
 
     // Update the document with the new data
@@ -158,10 +157,7 @@ const useFileList = () => {
       .then(() => {
         const filteredData = fileList.filter((favFile) => favFile.isFavorite);
         setFavoriteFile(filteredData);
-        console.log("Document successfully updated!", {
-          filteredData,
-          fileList,
-        });
+
         return filteredData;
       })
       .catch((error) => {
@@ -201,6 +197,7 @@ const useFileList = () => {
     favoriteFileList,
     searchQuery
   );
+
   return {
     isFileLoading,
     fileList: filteredFileList,
