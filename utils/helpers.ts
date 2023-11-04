@@ -53,7 +53,9 @@ export function isFileImage(imageType: string) {
 }
 
 export const searchListByName = (list: any[], searchQuery: string) => {
+  let isSearching = true;
   if (!searchQuery) {
+    isSearching = false;
     return list; // Return the original list if the search query is empty
   }
 
@@ -63,8 +65,9 @@ export const searchListByName = (list: any[], searchQuery: string) => {
   // Use filter to find items in the list that match the search query
   const filteredList = list.filter((item) => {
     // You can change this condition to match the properties you want to search by
+
     return item.name.toLowerCase().includes(query);
   });
-
+  isSearching = false;
   return filteredList;
 };

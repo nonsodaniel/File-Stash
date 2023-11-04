@@ -34,7 +34,7 @@ const useFileList = () => {
   const {
     fileList,
     setFileList,
-    favoriteFileList,
+
     setFavoriteFile,
     searchQuery,
     setSearchQuery,
@@ -135,16 +135,6 @@ const useFileList = () => {
     }
   };
 
-  const fetchAllFavoriteFiles = async () => {
-    setLoading(true);
-    if (!!fileList.length) {
-      const filteredData = fileList.filter((favFile) => favFile.isFavorite);
-      console.log("calls", fileList, filteredData);
-      setFavoriteFile(filteredData);
-    }
-    setLoading(false);
-  };
-
   const fetchFileById = (id) => {
     if (!!fileList.length && id) {
       const filteredData = fileList.filter(
@@ -204,9 +194,13 @@ const useFileList = () => {
     }
   }, []);
 
-  // Filtered file list based on the search query
+  // Filtered list based on the search query
   const filteredFileList = searchListByName(fileList, searchQuery);
-
+  const favoriteFileList = fileList.filter((favFile) => favFile.isFavorite);
+  const filteredFavoriteFileList = searchListByName(
+    favoriteFileList,
+    searchQuery
+  );
   return {
     isFileLoading,
     fileList: filteredFileList,
@@ -218,8 +212,8 @@ const useFileList = () => {
     fileByIdList,
     setFileByIdList,
     updateFavoriteInFile,
-    favoriteFileList,
-    fetchAllFavoriteFiles,
+    favoriteFileList: filteredFavoriteFileList,
+
     setSearchQuery,
     searchQuery,
   };

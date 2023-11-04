@@ -1,13 +1,6 @@
-import { useSession } from "next-auth/react";
 import { useContext, useEffect } from "react";
 import { RootFolderContext } from "../../context/RootFolderContext";
-import { getFirestore } from "firebase/firestore";
-import { app } from "../../config/firebaseConfig";
-import FolderHeader from "../../components/Folder/FolderHeader";
-import FolderList from "../../components/Folder/FolderList";
-import useFolderList from "../../hooks/useFolderList";
 import AppLayout from "../../components/layout/AppLayout";
-import SearchBar from "../../components/ui/SearchBar";
 import Loader from "../../components/ui/Loader";
 import useFileList from "../../hooks/useFileList";
 import TopHeader from "../../components/ui/TopHeader";
@@ -16,17 +9,18 @@ import FileList from "../../components/FileList/FileList";
 import FolderFileDialog from "../../components/ui/FolderFileDialog";
 
 export default function Home() {
-  const { fetchAllFavoriteFiles, favoriteFileList, isFileLoading, fileList } =
-    useFileList();
+  const { setRootFolderId } = useContext(RootFolderContext);
+  const { isFileLoading, favoriteFileList } = useFileList();
 
   useEffect(() => {
-    fetchAllFavoriteFiles();
-  }, [fileList]);
+    setRootFolderId(0);
+  }, []);
 
   return (
     <AppLayout>
       <div className={"p-5 folder-section"}>
         <TopHeader />
+
         <div
           className="p-5 mt-5 
         bg-white rounded-lg"
