@@ -60,17 +60,17 @@ const StorageDetailList = ({ fileList }) => {
       return "Others";
     }
   };
-
+  const categorizedFilesList = Object.keys(categorizedFiles);
   return (
     <>
-      {Object.keys(categorizedFiles).map((category) => {
+      {categorizedFilesList.map((category) => {
         const files = categorizedFiles[category];
         return (
           <StorageDetailItem
             item={{
               type: category,
-              totalFile: files.length,
-              size: formatSize(sumNumbers(files)), // You can calculate the size if needed
+              totalFile: files.length || 0,
+              size: formatSize(sumNumbers(files)) || 0, // You can calculate the size if needed
               logo: getLogoByCategory(category),
             }}
             key={category}

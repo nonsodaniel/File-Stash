@@ -15,12 +15,12 @@ const Storage = () => {
     session && (
       <div>
         <UserInformation />
-        {!!storageData.length && (
-          <>
-            <StorageInformation fileList={storageData} />
-            <StorageDetailList fileList={storageData} />
-          </>
-        )}
+
+        <>
+          <StorageInformation fileList={storageData} />
+          <StorageDetailList fileList={storageData} />
+        </>
+
         {isFileLoading && <Loader />}
         {/* <StorageUpgradeMessage /> */}
       </div>
