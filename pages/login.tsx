@@ -4,14 +4,14 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 
 const Login = () => {
-  const { data: session } = useSession();
+  const { status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
-    if (session) {
+    if (status && status === "authenticated") {
       router.push("/");
     }
-  }, [session]);
+  }, [status]);
 
   return (
     <div className="flex flex-col justify-center items-center h-screen bg-gray-100">

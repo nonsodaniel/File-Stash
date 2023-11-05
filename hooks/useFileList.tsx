@@ -22,9 +22,12 @@ import { ShowToastContext } from "../context/ShowToastContext";
 import { RootFolderContext } from "../context/RootFolderContext";
 import { DataContext } from "../context/DataContext";
 import { searchListByName } from "../utils/helpers";
+import { useRouter } from "next/router";
 
 const useFileList = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
   const db = getFirestore(app);
   const [isFileLoading, setLoading] = useState(false);
   const userSession = session?.user;
@@ -185,10 +188,13 @@ const useFileList = () => {
   };
 
   useEffect(() => {
-    if (userSession) {
+    if (status && status === "authenticated") {
       fetchAllFileList();
     }
-  }, []);
+    if (status && status === "unauthenticated") {
+      router.push("/login");
+    }
+  }, [status]);
 
   // Filtered list based on the search query
   const filteredFileList = searchListByName(fileList, searchQuery);

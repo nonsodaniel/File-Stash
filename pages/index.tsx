@@ -1,32 +1,41 @@
 import { useSession } from "next-auth/react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import FolderList from "../components/Folder/FolderList";
 import FileList from "../components/FileList/FileList";
 import { RootFolderContext } from "../context/RootFolderContext";
 import useFolderList from "../hooks/useFolderList";
 import useFileList from "../hooks/useFileList";
 import FolderHeader from "../components/Folder/FolderHeader";
-import FileHeader from "../components/FileList/FileHeader";
 import TopHeader from "../components/ui/TopHeader";
 import AppLayout from "../components/layout/AppLayout";
 import Loader from "../components/ui/Loader";
 import EmptyState from "../components/ui/EmptyState";
-import Footer from "../components/mobile/Footer";
 import CreateFolderModal from "../components/ui/CreateFolderModal";
 import UploadFileModal from "../components/FileList/UploadFileModal";
+import { useRouter } from "next/router";
 
 export default function Home() {
   const { data: session, status } = useSession();
   const { setRootFolderId } = useContext(RootFolderContext);
+  const router = useRouter();
 
   const { isFolderLoading, folderList } = useFolderList();
   const { isFileLoading, fileList } = useFileList();
 
   useEffect(() => {
     setRootFolderId(0);
-  }, []);
+    if (status && status === "unauthenticated") {
+      router.push("/login");
+    }
+  }, [status]);
 
-  if (status == "loading") return null;
+  if (status == "loading")
+    return (
+      <div className="h-[100vh] flex justify-center items-center">
+        <Loader />
+      </div>
+    );
+
   return (
     <AppLayout>
       <div className={"p-5 folder-section"}>
@@ -69,9 +78,6 @@ export default function Home() {
           closeModal={() => globalThis.create_file_modal.close()}
         />
       </dialog>
-      <div className="mobile-footer">
-        <Footer />
-      </div>
     </AppLayout>
   );
 }

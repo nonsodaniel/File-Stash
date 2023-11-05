@@ -1,9 +1,16 @@
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React from "react";
 
 const UserInformation = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const onLogout = () => {
+    signOut({ redirect: false }).then(() => {
+      router.push("/login"); // Redirect to the dashboard page after signing out
+    });
+  };
 
   return (
     <div>
@@ -34,7 +41,7 @@ const UserInformation = () => {
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
-              onClick={() => signOut()}
+              onClick={onLogout}
               stroke="currentColor"
               className="w-6 h-6 text-blue-500
                 hover:animate-pulse transition-all "

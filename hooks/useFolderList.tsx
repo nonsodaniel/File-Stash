@@ -17,13 +17,11 @@ import { useRouter } from "next/router";
 import { searchListByName } from "../utils/helpers";
 
 const useFolderList = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
 
   const [isFolderLoading, setLoading] = useState(false);
   const [folderByIdList, setFolderByIdList] = useState([]);
-
-  const userSession = session?.user;
 
   const { setToastMessage } = useContext(ShowToastContext);
   const { folderList, setFolderList, searchQuery, setSearchQuery } =
@@ -101,12 +99,15 @@ const useFolderList = () => {
         });
       });
   };
+
   useEffect(() => {
-    if (userSession) {
+    if (status && status === "authenticated") {
       fetchFolderList();
     }
-  }, []);
-
+    if (status && status === "unauthenticated") {
+      router.push("/login");
+    }
+  }, [status]);
   // Filtered file list based on the search query
   const filteredFolderList = searchListByName(folderList, searchQuery);
 

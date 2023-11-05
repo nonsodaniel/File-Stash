@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import React, { useContext, useEffect } from "react";
-import { useSession } from "next-auth/react";
 import FolderList from "../../components/Folder/FolderList";
 import { RootFolderContext } from "../../context/RootFolderContext";
 import FileList from "../../components/FileList/FileList";
@@ -16,8 +15,6 @@ import FolderFileDialog from "../../components/ui/FolderFileDialog";
 function FolderDetails() {
   const router = useRouter();
   const { name, id } = router.query;
-  const { data: session } = useSession();
-
   const { setRootFolderId } = useContext(RootFolderContext);
   const {
     onDeleteFolder,
@@ -29,11 +26,11 @@ function FolderDetails() {
   const { fetchFileById, isFileLoading, fileByIdList } = useFileList();
   useEffect(() => {
     setRootFolderId(id);
-    if (session?.user && folderList.length) {
+    if (folderList.length) {
       fetchFolderById(id);
       fetchFileById(id);
     }
-  }, [id, session, folderList]);
+  }, [id, folderList]);
 
   const handleDeleteFolders = () => {
     onDeleteFolder(id).then(() => router.push("/folders"));

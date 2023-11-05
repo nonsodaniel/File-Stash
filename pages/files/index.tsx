@@ -1,4 +1,3 @@
-import { useSession } from "next-auth/react";
 import { useContext, useEffect } from "react";
 import { RootFolderContext } from "../../context/RootFolderContext";
 import useFileList from "../../hooks/useFileList";

@@ -1,4 +1,3 @@
-import { useSession } from "next-auth/react";
 import { useContext, useEffect } from "react";
 import { RootFolderContext } from "../../context/RootFolderContext";
 import FolderHeader from "../../components/Folder/FolderHeader";
@@ -7,19 +6,16 @@ import useFolderList from "../../hooks/useFolderList";
 import TopHeader from "../../components/ui/TopHeader";
 import AppLayout from "../../components/layout/AppLayout";
 import Loader from "../../components/ui/Loader";
-import CreateFolderModal from "../../components/ui/CreateFolderModal";
-import UploadFileModal from "../../components/FileList/UploadFileModal";
 import FolderFileDialog from "../../components/ui/FolderFileDialog";
 
 export default function Home() {
-  const { data: session } = useSession();
   const { setRootFolderId } = useContext(RootFolderContext);
 
   const { isFolderLoading, folderList } = useFolderList();
 
   useEffect(() => {
     setRootFolderId(0);
-  }, [session]);
+  }, []);
 
   return (
     <AppLayout>
