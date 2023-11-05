@@ -39,37 +39,12 @@ const menuListData: MenuListProps[] = [
   },
 ];
 const mobileMenuListData: MenuListProps[] = [
-  {
-    id: 1,
-    name: "Home",
-    logo: <AiOutlineHome />,
-    url: "/",
-  },
-  {
-    id: 2,
-    name: "My Folders",
-    logo: <FiFolder />,
-    url: "/folders",
-  },
-  {
-    id: 3,
-    name: "My Files",
-    logo: <AiOutlineFile />,
-    url: "/files",
-  },
-  {
-    id: 4,
-    name: "Favorites",
-    logo: <FcLike />,
-    url: "/favorites",
-    isSoon: true,
-  },
+  ...menuListData,
   {
     id: 5,
     name: "Profile",
     logo: <CgProfile />,
     url: "/profile",
-    isSoon: true,
   },
 ];
 
