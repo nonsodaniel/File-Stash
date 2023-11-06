@@ -24,9 +24,11 @@ const Footer = () => {
           <Link
             href={item.url}
             key={index}
-            className={
-              "inline-flex flex-col items-center justify-center px-5 rounded-l-full hover:bg-gray-50 dark:hover:bg-gray-800 group"
-            }
+            className={`inline-flex flex-col items-center
+               justify-center px-5 
+                group
+               ${router.pathname == item.url ? "bg-gray-800 text-white" : ""}
+               `}
             onClick={() => onMenuClick(item, index)}
           >
             <span style={{ fontSize: "25px" }}>{item.logo}</span>

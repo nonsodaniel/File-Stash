@@ -4,7 +4,6 @@ import CreateFolderModal from "./CreateFolderModal";
 import Link from "next/link";
 import { AiOutlineFolderAdd, AiOutlineFileAdd } from "react-icons/ai";
 import { useMenuList } from "../../hooks/useMenuList";
-import UploadFileModal from "../FileList/UploadFileModal";
 
 const SideNavBar = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
@@ -63,11 +62,11 @@ const SideNavBar = () => {
               item.isSoon ? "pointer-events-none" : ""
             }
             hover:bg-blue-500 hover:text-white
-            ${router.pathname == item.url ? "bg-blue-500 text-white" : null}`}
+            ${router.pathname == item.url ? "bg-blue-500 text-white" : ""}`}
             onClick={() => onMenuClick(item, index)}
           >
             <span style={{ fontSize: "25px" }}>{item.logo}</span>
-            {item.name}{" "}
+            {item.name}
           </Link>
         ))}
       </div>

@@ -9,7 +9,7 @@ interface MenuListProps {
   name: string;
   logo: ReactNode;
   url: string;
-  isSoon?: boolean;
+  isSoon?: boolean; //for 'coming soon' navs
 }
 
 const menuListData: MenuListProps[] = [
